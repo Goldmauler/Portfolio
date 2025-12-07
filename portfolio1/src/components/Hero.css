@@ -1,0 +1,292 @@
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+}
+
+.hero-name-scramble {
+  display: inline-block;
+}
+
+.hero-intro-card {
+  background: linear-gradient(135deg, rgba(255, 0, 64, 0.05) 0%, rgba(0, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  border-radius: 16px;
+  padding: 2.5rem 3rem;
+  margin: 3rem auto 4rem;
+  max-width: 800px;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 8px 32px rgba(255, 0, 64, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.hero-intro-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.hero-intro-card:hover::before {
+  left: 100%;
+}
+
+.hero-intro-card:hover {
+  border-color: rgba(0, 255, 255, 0.5);
+  box-shadow: 
+    0 12px 48px rgba(255, 0, 64, 0.2),
+    0 0 20px rgba(0, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.hero-scrambled {
+  margin: 0;
+  max-width: 100%;
+}
+
+.hero-scrambled .scrambled-text-block {
+  margin: 0;
+}
+
+.hero-scrambled p {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 2;
+  text-align: justify;
+  text-align-last: center;
+  color: #f0f0f0;
+  margin: 0;
+  font-weight: 400;
+}
+
+.hero-location {
+  background: linear-gradient(135deg, #ff0040 0%, #ff6b6b 50%, #00ffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite, glitchText 5s ease-in-out infinite;
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: 'VIMAL HARIHAR';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff0040 0%, #ff6b6b 50%, #00ffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+}
+
+.glitch-text::before {
+  animation: glitchBefore 3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text::after {
+  animation: glitchAfter 3s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #b0b0b0;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.hero-location {
+  font-size: 1.2rem;
+  color: #00ffff;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.hero-tags {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.tag {
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 0, 64, 0.1);
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  border-radius: 25px;
+  color: #ff0040;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(255, 0, 64, 0.2);
+  border-color: #ff0040;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 0, 64, 0.3);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.cta-button.primary {
+  background: linear-gradient(135deg, #ff0040 0%, #00ffff 100%);
+  color: #000;
+  font-weight: 700;
+}
+
+.cta-button.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 0, 64, 0.4);
+}
+
+.cta-button.secondary {
+  background: transparent;
+  color: #ff0040;
+  border: 2px solid #ff0040;
+}
+
+.cta-button.secondary:hover {
+  background: rgba(255, 0, 64, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(255, 0, 64, 0.3);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: brightness(1) hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.4) hue-rotate(20deg);
+  }
+}
+
+@keyframes glitchText {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitchBefore {
+  0%, 90%, 100% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  92% {
+    opacity: 0.7;
+    transform: translate(-5px, 0);
+  }
+  94% {
+    opacity: 0;
+    transform: translate(5px, 0);
+  }
+}
+
+@keyframes glitchAfter {
+  0%, 85%, 100% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  87% {
+    opacity: 0.7;
+    transform: translate(5px, 0);
+  }
+  89% {
+    opacity: 0;
+    transform: translate(-5px, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 1rem;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .cta-button {
+    width: 100%;
+  }
+}
