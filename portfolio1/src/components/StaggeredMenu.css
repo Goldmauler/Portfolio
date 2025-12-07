@@ -31,6 +31,7 @@
   background: transparent;
   pointer-events: none;
   z-index: 1001;
+  box-sizing: border-box;
 }
 
 .staggered-menu-header > * {
@@ -359,6 +360,10 @@
   .staggered-menu-wrapper[data-open] .sm-logo-img {
     filter: invert(100%);
   }
+  
+  .staggered-menu-header {
+    padding: 1.5em;
+  }
 }
 
 @media (max-width: 640px) {
@@ -366,7 +371,7 @@
     width: 100%;
     left: 0;
     right: 0;
-    padding: 5em 1.5em 1.5em 1.5em;
+    padding: 6em 1.5em 2em 1.5em;
   }
 
   .sm-prelayers {
@@ -375,6 +380,7 @@
 
   .sm-panel-item {
     font-size: clamp(1.5rem, 10vw, 2.5rem);
+    padding: 0.5em 0;
   }
 
   .staggered-menu-wrapper[data-open] .sm-logo-img {
@@ -382,7 +388,87 @@
   }
   
   .sm-toggle {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.9rem;
+    gap: 0.4rem;
+  }
+  
+  .staggered-menu-header {
+    padding: 1em;
+    justify-content: flex-end;
+  }
+  
+  .sm-toggle-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .sm-panel-list {
+    gap: 0.5rem;
+  }
+  
+  .sm-socials {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+  
+  .sm-socials-title {
     font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .sm-socials-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .staggered-menu-header {
+    padding: 0.75em;
+  }
+  
+  .sm-toggle {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.75rem;
+    gap: 0.3rem;
+  }
+  
+  .staggered-menu-panel {
+    padding: 5em 1em 1.5em 1em;
+  }
+  
+  .sm-panel-item {
+    font-size: clamp(1.25rem, 12vw, 2rem);
+    padding: 0.4em 0;
+  }
+  
+  .sm-toggle-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .sm-panel-itemNumber {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .staggered-menu-header {
+    padding: 0.5em;
+  }
+  
+  .sm-toggle {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    gap: 0.25rem;
+  }
+  
+  .staggered-menu-panel {
+    padding: 4.5em 0.75em 1em 0.75em;
+  }
+  
+  .sm-panel-item {
+    font-size: clamp(1.1rem, 14vw, 1.75rem);
   }
 }
