@@ -7,6 +7,8 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -15,12 +17,33 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+    
+    try {
+      // Using Formspree for email handling
+      const response = await fetch('https://formspree.io/f/xyzqwvab', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setSubmitStatus('success');
+        alert('Thank you for your message! I\'ll get back to you soon.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+        alert('Failed to send message. Please try again or email me directly.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setSubmitStatus('error');
+      alert('Error sending message. Please contact me directly at vimal007.x@gmail.com');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,9 +55,25 @@ const Contact = () => {
             <div className="contact-info">
               <h3 className="contact-subtitle">Let's work together</h3>
               <p className="contact-description">
-                I'm always open to discussing new projects, research opportunities, 
-                or collaborations in AI, IoT, and Full Stack Development.
+                I'm always open to discussing new projects, research opportunities, internships, 
+                or collaborations in AI, QA Testing, IoT, and Full Stack Development.
               </p>
+              
+              <div className="direct-contact-links">
+                <h4>Or reach out directly:</h4>
+                <p className="contact-item">
+                  📧 <a href="mailto:vimal007.x@gmail.com" className="contact-email">vimal007.x@gmail.com</a>
+                </p>
+                <p className="contact-item">
+                  📱 <a href="tel:+919489874744" className="contact-phone">+91-9489874744</a>
+                </p>
+                <p className="contact-item">
+                  💼 <a href="https://linkedin.com/in/vimal-harihar-27979a255" target="_blank" rel="noopener noreferrer" className="contact-linkedin">LinkedIn Profile</a>
+                </p>
+                <p className="contact-item">
+                  ⭐ <a href="https://github.com/Goldmauler" target="_blank" rel="noopener noreferrer" className="contact-github">GitHub Repository</a>
+                </p>
+              </div>
             </div>
             
             <form className="contact-form" onSubmit={handleSubmit}>
@@ -74,31 +113,16 @@ const Contact = () => {
                   placeholder="Your message..."
                 ></textarea>
               </div>
-              <button type="submit" className="submit-button">
-                Send Message
+              <button type="submit" className="submit-button" disabled={loading}>
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
+              {submitStatus === 'success' && (
+                <p className="success-message">✓ Message sent successfully!</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="error-message">✗ Failed to send message. Please try again.</p>
+              )}
             </form>
-
-            <div className="contact-details">
-              <div className="contact-item">
-                <span className="contact-label">Email:</span>
-                <span>vimal007.x@gmail.com</span>
-              </div>
-              <div className="contact-item">
-                <span className="contact-label">Phone:</span>
-                <span>+91-9489874744</span>
-              </div>
-              <div className="contact-item">
-                <span className="contact-label">Location:</span>
-                <span>Coimbatore, India</span>
-              </div>
-            </div>
-
-            <div className="social-links">
-              <a href="https://github.com/Goldmauler" className="social-link" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <a href="https://linkedin.com/in/vimal-harihar-27979a255" className="social-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a href="mailto:vimal007.x@gmail.com" className="social-link">Email</a>
-            </div>
           </div>
         </div>
       </div>

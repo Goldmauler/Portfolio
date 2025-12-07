@@ -4,28 +4,34 @@ import './Experience.css';
 const Experience = () => {
   const experiences = [
     {
-      role: 'Undergraduate Researcher',
-      organization: 'Amrita Vishwa Vidyapeetham',
-      period: 'Ongoing',
-      description: 'Co-authored research papers in AI, Smart Systems, and IoT. Contributed to literature review and experimental design.'
+      role: 'Web Developer',
+      organization: 'HIVETZ Nutri PVT Limited',
+      period: '2024-2025',
+      description: 'Developed and deployed a responsive company website using Next.js frontend framework with custom domain integration. Delivered a production-ready web solution within 1 month, enhancing the company\'s online presence and user engagement.'
     },
     {
-      role: 'Core Member',
+      role: 'Head of Operations',
       organization: 'MUNSOC Club, Amrita Vishwa Vidyapeetham',
-      period: '',
-      description: 'Organized Model UN events and moderated simulations. Improved club engagement through feedback initiatives.'
+      period: '2023-2025',
+      description: 'Planned and organized Model UN events, leading operations to ensure smooth execution and delegate engagement. Introduced a new feedback system that enhanced club event quality and member satisfaction. Earned 5 titles including High Comm.'
+    },
+    {
+      role: 'Undergraduate Researcher',
+      organization: 'Amrita Vishwa Vidyapeetham',
+      period: '2024-2025',
+      description: 'Co-authored research papers in AI, Smart Systems, and IoT. Contributed to literature review and experimental design for multiple research initiatives.'
     },
     {
       role: 'Public Relations Volunteer',
       organization: 'Anokha Tech Fest, Amrita Vishwa Vidyapeetham',
-      period: '',
-      description: 'Coordinated communications with sponsors and participants for the annual tech fest.'
+      period: '2024',
+      description: 'Coordinated communications with sponsors and participants for the annual tech fest. Managed sponsor relations and event publicity.'
     },
     {
       role: 'Cultural Participant',
       organization: 'Gokulashtami Fest',
-      period: '',
-      description: 'Represented CSE department in skit competition, securing third place among 50 teams.'
+      period: '2023',
+      description: 'Represented CSE department in skit competition, securing third place among 50 teams. Demonstrated leadership and creative excellence.'
     }
   ];
 

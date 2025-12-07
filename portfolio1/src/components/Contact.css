@@ -150,9 +150,79 @@
   transition: all 0.3s ease;
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(97, 220, 163, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Direct Contact Links */
+.direct-contact-links {
+  background: rgba(97, 179, 220, 0.08);
+  border-left: 3px solid #61b3dc;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.direct-contact-links h4 {
+  font-size: 1rem;
+  color: #61b3dc;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contact-item {
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-email,
+.contact-phone,
+.contact-linkedin,
+.contact-github {
+  color: #61b3dc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.contact-email:hover,
+.contact-phone:hover,
+.contact-linkedin:hover,
+.contact-github:hover {
+  color: #61dca3;
+  text-decoration: underline;
+}
+
+/* Status Messages */
+.success-message {
+  color: #61dca3;
+  font-weight: 500;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(97, 220, 163, 0.1);
+  border-left: 3px solid #61dca3;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-weight: 500;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 107, 107, 0.1);
+  border-left: 3px solid #ff6b6b;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {
@@ -166,5 +236,12 @@
 
   .contact-subtitle {
     font-size: 1.2rem;
+  }
+  
+  .direct-contact-links {
+    text-align: center;
+    border-left: none;
+    border-top: 3px solid #61b3dc;
+    padding-top: 2rem;
   }
 }
