@@ -47,9 +47,9 @@ const About = () => {
           <div className="contact-info-section">
             <h3 className="contact-title">Contact Information</h3>
             <div className="contact-details">
-              <p>📧 <a href="mailto:vimal007.x@gmail.com" className="contact-link">vimal007.x@gmail.com</a></p>
-              <p>📱 <a href="tel:+919489874744" className="contact-link">+91-9489874744</a></p>
-              <p>📍 Coimbatore, India • Open to Kuala Lumpur, Malaysia</p>
+              <p><a href="mailto:vimal007.x@gmail.com" className="contact-link">vimal007.x@gmail.com</a></p>
+              <p><a href="tel:+919489874744" className="contact-link">+91-9489874744</a></p>
+              <p>Coimbatore, India • Open to Kuala Lumpur, Malaysia</p>
             </div>
           </div>
           

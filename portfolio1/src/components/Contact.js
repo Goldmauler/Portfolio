@@ -62,16 +62,16 @@ const Contact = () => {
               <div className="direct-contact-links">
                 <h4>Or reach out directly:</h4>
                 <p className="contact-item">
-                  📧 <a href="mailto:vimal007.x@gmail.com" className="contact-email">vimal007.x@gmail.com</a>
+                  <a href="mailto:vimal007.x@gmail.com" className="contact-email">vimal007.x@gmail.com</a>
                 </p>
                 <p className="contact-item">
-                  📱 <a href="tel:+919489874744" className="contact-phone">+91-9489874744</a>
+                  <a href="tel:+919489874744" className="contact-phone">+91-9489874744</a>
                 </p>
                 <p className="contact-item">
-                  💼 <a href="https://linkedin.com/in/vimal-harihar-27979a255" target="_blank" rel="noopener noreferrer" className="contact-linkedin">LinkedIn Profile</a>
+                  <a href="https://linkedin.com/in/vimal-harihar-27979a255" target="_blank" rel="noopener noreferrer" className="contact-linkedin">LinkedIn Profile</a>
                 </p>
                 <p className="contact-item">
-                  ⭐ <a href="https://github.com/Goldmauler" target="_blank" rel="noopener noreferrer" className="contact-github">GitHub Repository</a>
+                  <a href="https://github.com/Goldmauler" target="_blank" rel="noopener noreferrer" className="contact-github">GitHub Repository</a>
                 </p>
               </div>
             </div>
