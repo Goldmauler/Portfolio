@@ -47,13 +47,11 @@
   clip-path: polygon(28% 100%, 72% 100%, 100% 0, 0 0);
   animation: holo-beam 3.2s ease-in-out infinite;
 }
-/* Paper theme: the portrait sits on a solid card, like a printed photo,
-   so the grid, planets and dither of the background can't show through. */
 [data-mode='light'] .holo__beam {
-  display: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.04) 55%, transparent 85%);
 }
 [data-mode='light'] .holo__scan {
-  display: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 5px, rgba(var(--bg-rgb), 0.12) 5px 6px);
 }
 [data-mode='light'] .holo__base {
   border-color: rgba(0, 0, 0, 0.7);
@@ -63,23 +61,9 @@
 [data-mode='light'] .holo__base::after {
   border-color: rgba(0, 0, 0, 0.55);
 }
+/* Paper backing so the busy dithered background doesn't fight the ink. */
 [data-mode='light'] .holo__frame {
-  background: #fff8fa;
-  border: 2px solid var(--fg);
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.8);
-}
-[data-mode='light'] .holo__frame::before {
-  content: 'HOLO.FEED // vimal.jpg';
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  padding: 0 8px;
-  background: var(--fg);
-  color: #fff8fa;
-  font-family: var(--font-pixel);
-  font-size: 18px;
-  line-height: 22px;
+  background: radial-gradient(ellipse 60% 55% at 50% 48%, rgba(var(--bg-rgb), 0.94) 0, rgba(var(--bg-rgb), 0.82) 55%, transparent 78%);
 }
 [data-mode='light'] .holo__cap {
   color: var(--fg);
