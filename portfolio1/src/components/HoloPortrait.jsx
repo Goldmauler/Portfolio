@@ -206,7 +206,7 @@ const readColors = () => {
 };
 
 // On light themes a glow can't read, so the portrait is printed in solid ink.
-const INK = '#2b1219';
+const INK = '#170a0f';
 
 export default function HoloPortrait({ src, cols = 100, label }) {
   const wrapRef = useRef(null);
@@ -261,10 +261,10 @@ export default function HoloPortrait({ src, cols = 100, label }) {
           if (cell.kind === 1) {
             // Barely-brighter-than-backdrop cells fade out instead of inking up.
             const fade = Math.min(1, Math.max(0, (cell.t - 0.02) / 0.2));
-            const ink = fade * (1 - cell.t) ** 2;
-            if (ink < 0.06) return;
-            ch = RAMP[Math.max(1, Math.round(ink * 0.85 * (RAMP.length - 1)))];
-            alpha = 0.35 + 0.65 * ink;
+            const ink = fade * (1 - cell.t) ** 1.6;
+            if (ink < 0.05) return;
+            ch = RAMP[Math.max(1, Math.round(ink * 0.92 * (RAMP.length - 1)))];
+            alpha = 0.5 + 0.5 * ink;
           } else if (cell.kind === 2) {
             alpha = 0.55 + 0.35 * cell.t;
           } else if (cell.kind === 3) {
