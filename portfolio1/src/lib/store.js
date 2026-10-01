@@ -6,7 +6,7 @@ import { useSyncExternalStore } from 'react';
 const listeners = new Set();
 
 let state = {
-  theme: 'phosphor',
+  theme: 'time',
   crt: true,
   matrix: false,
   booted: false,

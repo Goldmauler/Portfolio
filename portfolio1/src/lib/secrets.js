@@ -12,7 +12,6 @@ export const SECRETS = [
   { id: 'quiz', name: 'Inner Circle', hint: 'Score 8+/10 in KNOW_VIMAL.exe.' },
   { id: 'firewall', name: 'Firewall', hint: 'Score 300+ in FIREWALL.exe.' },
   { id: 'life', name: 'Conway', hint: 'Bring the Game of Life to life.' },
-  { id: 'losses', name: 'Loss Hunter', hint: 'Shoot down all 10 rockets around the trophy case.' },
   { id: 'decoder', name: 'Decoder Ring', hint: 'Decode the [B.64] block.' },
   { id: 'timestone', name: 'Sorcerer Supreme', hint: 'Name Vimal’s favourite Marvel character.' },
   { id: 'snap', name: 'Inevitable', hint: 'Hand over the Time Stone.' },

@@ -2,50 +2,55 @@ import { getState, setState } from './store';
 
 // Every theme drives both the CSS tokens and the 1-bit dither shader
 // (paper = empty pixels, ink = mid tones, ink2 = highlights).
+// Colour themes are named after the Infinity Stones.
 export const THEMES = {
-  phosphor: {
-    label: 'phosphor',
+  time: {
+    label: 'time',
+    stone: 'Time Stone',
     bg: '#030605',
     fg: '#cdeedc',
-    accent: '#00ff9d',
-    accent2: '#00d4ff',
+    accent: '#2bff88',
+    accent2: '#9dffcc',
     panel: '#08110d',
     onAccent: '#021009',
-    ink: '#00c97a',
-    ink2: '#b9ffe0',
+    ink: '#14c86a',
+    ink2: '#c4ffdf',
   },
-  ice: {
-    label: 'ice',
-    bg: '#02050a',
-    fg: '#d3e9ff',
-    accent: '#00e5ff',
-    accent2: '#8a6bff',
-    panel: '#070e16',
-    onAccent: '#00121a',
-    ink: '#00a8d6',
-    ink2: '#e2f8ff',
+  space: {
+    label: 'space',
+    stone: 'Space Stone',
+    bg: '#02040b',
+    fg: '#d6e4ff',
+    accent: '#3d8bff',
+    accent2: '#8fd0ff',
+    panel: '#070d1a',
+    onAccent: '#00102a',
+    ink: '#2b6fe6',
+    ink2: '#dfeaff',
   },
-  redteam: {
-    label: 'redteam',
-    bg: '#070204',
-    fg: '#ffdbe4',
-    accent: '#ff2a6d',
-    accent2: '#ff9a3d',
-    panel: '#13070b',
-    onAccent: '#1a0008',
-    ink: '#d81b5a',
-    ink2: '#ffd2df',
+  reality: {
+    label: 'reality',
+    stone: 'Reality Stone',
+    bg: '#080203',
+    fg: '#ffdcdd',
+    accent: '#ff2e3e',
+    accent2: '#ff8a5c',
+    panel: '#150608',
+    onAccent: '#1a0003',
+    ink: '#d81c2c',
+    ink2: '#ffd6d9',
   },
-  amber: {
-    label: 'amber',
-    bg: '#070502',
-    fg: '#ffe6bf',
-    accent: '#ffb000',
-    accent2: '#ff5f1f',
-    panel: '#130d05',
-    onAccent: '#1a0f00',
-    ink: '#d68f00',
-    ink2: '#fff0cc',
+  soul: {
+    label: 'soul',
+    stone: 'Soul Stone',
+    bg: '#080402',
+    fg: '#ffe4cc',
+    accent: '#ff8c1a',
+    accent2: '#ffcf5a',
+    panel: '#150b04',
+    onAccent: '#1a0b00',
+    ink: '#e06f00',
+    ink2: '#ffe6c8',
   },
   paper: {
     label: 'paper',
@@ -61,8 +66,11 @@ export const THEMES = {
   },
 };
 
+// Saved preferences from before the rename.
+const LEGACY = { phosphor: 'time', ice: 'space', redteam: 'reality', amber: 'soul' };
+
 export const THEME_KEYS = Object.keys(THEMES);
-export const DEFAULT_THEME = 'phosphor';
+export const DEFAULT_THEME = 'time';
 
 const hexToRgb = (hex) => {
   const n = parseInt(hex.slice(1), 16);
@@ -160,6 +168,7 @@ export function restoreTheme() {
   } catch {
     /* storage unavailable */
   }
+  saved = LEGACY[saved] || saved;
   if (!THEMES[saved]) saved = DEFAULT_THEME;
   applyTheme(saved);
   setState({ theme: saved });

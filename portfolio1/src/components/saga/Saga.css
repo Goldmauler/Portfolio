@@ -848,6 +848,12 @@
 }
 
 @media (max-width: 600px) {
+  .ts-badge {
+    top: calc(11vh + 10px);
+    left: 10px;
+    right: auto;
+    bottom: auto;
+  }
   .ts-badge__txt i {
     display: none;
   }

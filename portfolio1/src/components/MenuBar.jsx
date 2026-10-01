@@ -105,7 +105,11 @@ export default function MenuBar() {
           <button className="mb__item mb__secrets" onClick={() => emit('os:open', 'secrets')} title="Secrets found">
             <span className="accent">★</span> {unlocked.length}/{SECRETS.length}
           </button>
-          <button className="mb__item mb__theme" onClick={onTheme} title="Cycle color theme">
+          <button
+            className="mb__item mb__theme"
+            onClick={onTheme}
+            title={`${THEMES[theme]?.stone || 'Paper'} — click to switch stone`}
+          >
             <span className="mb__swatch" aria-hidden="true" />
             {THEMES[theme]?.label}
           </button>

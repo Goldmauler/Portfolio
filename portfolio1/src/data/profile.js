@@ -331,20 +331,6 @@ export const quizQuestions = [
   },
 ];
 
-// Carried by the rockets orbiting the trophy case — one per shot-down rocket.
-export const lossQuotes = [
-  'Every trophy in this case was built on a hackathon I lost first.',
-  '35+ hackathons. Most of them losses. All of them lessons.',
-  'A loss is just a stack trace — read it, fix it, ship again.',
-  'Rejected submissions are free code reviews from reality.',
-  'The demo that crashed taught me more than the one that won.',
-  'You don’t level up on wins. You level up on what broke.',
-  'Losing at 3 AM is how you learn to win at 9 AM.',
-  'Win or learn. There is no third option.',
-  '“Not selected” is just the spec for what to build next.',
-  'Losses compile into experience. Trophies are only the build output.',
-];
-
 export const certifications = [
   { name: 'Azure Architecture & Cloud Infrastructure', org: 'Microsoft Learn · AZ-305 & AZ-900 paths' },
   { name: 'Deep Agents · LangGraph', org: 'LangChain Academy' },

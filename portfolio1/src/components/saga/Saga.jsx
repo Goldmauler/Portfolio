@@ -344,8 +344,8 @@ function ReturnSequence({ onDropStone }) {
   };
   const goEvil = (onOff) => {
     if (onOff) {
-      applyTheme('redteam');
-      setState({ theme: 'redteam', evil: true });
+      applyTheme('reality');
+      setState({ theme: 'reality', evil: true });
     } else {
       applyTheme(prevTheme.current);
       setState({ theme: prevTheme.current, evil: false });
@@ -357,6 +357,7 @@ function ReturnSequence({ onDropStone }) {
     if (!booted) return undefined;
     lockScroll(true);
     window.scrollTo(0, 0);
+    score.preloadCredits();
     (async () => {
       try {
         await wait(1900); // let VH-01 materialise

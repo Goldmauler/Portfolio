@@ -353,7 +353,7 @@ export const COMMANDS = {
     run: (args, { print }) => {
       if (args[0] === 'off') {
         setState({ godMode: false, matrix: false });
-        setTheme('phosphor');
+        setTheme('time');
         return print('God mode disabled. Mortality restored.', 'ok');
       }
       activateGodMode();

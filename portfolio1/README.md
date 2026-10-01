@@ -21,8 +21,8 @@ two hacking games.
   - `FIREWALL.exe` — typing-defense arcade game with combos and a high score.
   - `Glider 1.1` — paintable Conway's Game of Life.
   - Clock, README, Secrets, Trash.
-- **11 hidden secrets** tracked in the menu bar (★), saved in `localStorage`.
-- **5 themes** — phosphor, ice, redteam, amber and a light `paper` mode.
+- **12 hidden secrets** tracked in the menu bar (★), saved in `localStorage`.
+- **5 themes** — named after the Infinity Stones: time (green), space (blue), reality (red), soul (amber), plus a light `paper` mode.
 - Smooth scrolling (Lenis + GSAP ScrollTrigger), `prefers-reduced-motion`
   support, keyboard-playable games, and a compact launcher layout on phones.
 
@@ -58,7 +58,7 @@ src/
   lib/                     store/event bus, themes, motion, smooth scroll, secrets
   components/three/        Scene, Robot, World, DitherPass
   components/terminal/     shell + command table
-  components/games/        KnowVimal, Firewall, Life, TrophyShooter
+  components/games/        KnowVimal, Firewall, Life
   components/os/           desktop icons + small apps
   sections/                Hero, About, Stack, Desktop, Missions, Logs, Connect, Footer
 ```

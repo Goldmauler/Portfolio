@@ -71,12 +71,19 @@ function RobotBubble() {
       const el = ref.current;
       if (el) {
         const w = el.offsetWidth;
-        const flip = !!getState().gauntlet || robotAnchor.x + w + 24 > window.innerWidth;
-        const x = flip ? robotAnchor.x - w - 12 : robotAnchor.x + 12;
-        const y = Math.max(46, robotAnchor.y - el.offsetHeight);
+        const vw = window.innerWidth;
+        const narrow = vw < 640;
+        const flip = !narrow && (!!getState().gauntlet || robotAnchor.x + w + 24 > vw);
+        let x = narrow ? robotAnchor.x - w / 2 : flip ? robotAnchor.x - w - 12 : robotAnchor.x + 12;
+        x = Math.max(8, Math.min(vw - w - 8, x));
+        // Stay below the cinematic letterbox bar; on phones the subtitles carry the line instead.
+        const cinematic = !!document.querySelector('.letterbox.is-on');
+        const top = cinematic ? window.innerHeight * 0.11 + 8 : 46;
+        const y = Math.max(top, robotAnchor.y - el.offsetHeight - (narrow ? 8 : 0));
         el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
-        el.style.opacity = robotAnchor.visible ? '1' : '0';
+        el.style.opacity = robotAnchor.visible && !(narrow && cinematic) ? '1' : '0';
         el.classList.toggle('is-flipped', flip);
+        el.classList.toggle('is-above', narrow);
       }
       raf = requestAnimationFrame(loop);
     };
@@ -154,7 +161,7 @@ const KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'Ar
 
 export function activateGodMode() {
   setState({ godMode: true, matrix: true });
-  setTheme('redteam');
+  setTheme('reality');
   emit('scene:glitch', 1.6);
   robotDo('glitch');
   toast('GOD MODE ENABLED. Type `godmode off` in the shell to restore.', 'secret');

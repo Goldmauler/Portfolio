@@ -191,14 +191,17 @@ function theme(c, out, t0, upToBeat = Infinity) {
 }
 
 /* ------------------------------------------------------------------------ */
-/* Optional custom track                                                    */
+/* Optional end-credits track                                               */
 /* ------------------------------------------------------------------------ */
 
 // Drop an audio file you have the rights to at public/audio/saga-theme.mp3
-// and the saga plays it instead of the synthesized cue.
+// and it plays over the "WILL RETURN IN 2027" end credits. Every other cue
+// stays synthesized.
 export const MUSIC_SRC = '/audio/saga-theme.mp3';
 
 let trackCheck = null;
+let preloaded = null;
+
 function customTrack() {
   if (!trackCheck) {
     // SPA rewrites answer missing files with index.html, so check the type.
@@ -207,6 +210,16 @@ function customTrack() {
       .catch(() => false);
   }
   return trackCheck;
+}
+
+/** Start buffering the credits track early so it starts right on cue. */
+export function preloadCredits() {
+  customTrack().then((ok) => {
+    if (!ok || preloaded) return;
+    preloaded = new Audio(MUSIC_SRC);
+    preloaded.preload = 'auto';
+    preloaded.load();
+  });
 }
 
 function playFile(fallback) {
@@ -222,10 +235,13 @@ function playFile(fallback) {
       synth = fallback();
       return;
     }
-    audio = new Audio(MUSIC_SRC);
-    audio.crossOrigin = 'anonymous';
+    audio = preloaded || new Audio(MUSIC_SRC);
+    preloaded = null;
+    audio.currentTime = 0;
     gain = graph.c.createGain();
-    gain.gain.value = 0.9;
+    const t = graph.c.currentTime;
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.linearRampToValueAtTime(0.9, t + 1.2);
     graph.c.createMediaElementSource(audio).connect(gain).connect(graph.master);
     audio.play().catch(() => {});
   });
@@ -235,6 +251,7 @@ function playFile(fallback) {
       synth?.stop(fade);
       if (audio && gain) {
         const t = graph.c.currentTime;
+        gain.gain.cancelScheduledValues(t);
         gain.gain.setValueAtTime(gain.gain.value, t);
         gain.gain.linearRampToValueAtTime(0, t + fade);
         setTimeout(() => audio.pause(), fade * 1000 + 50);
@@ -245,10 +262,10 @@ function playFile(fallback) {
 
 /** Time Stone unlock: a timpani roll into the opening of the theme. */
 export function rise() {
-  return playFile(riseSynth);
+  return riseSynth();
 }
 
-/** End credits: the full theme. */
+/** End credits: the custom track if one is present, else the full synthesized cue. */
 export function fanfare() {
   return playFile(fanfareSynth);
 }

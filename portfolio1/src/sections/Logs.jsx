@@ -3,7 +3,6 @@ import { experience, achievements, certifications, profile } from '../data/profi
 import { gsap } from '../lib/motion';
 import { prefersReducedMotion } from '../lib/device';
 import SectionMeta from '../components/SectionMeta';
-import TrophyShooter from '../components/games/TrophyShooter';
 import './Logs.css';
 
 const TIER_STARS = { gold: '★★★', silver: '★★', bronze: '★' };
@@ -95,8 +94,7 @@ export default function Logs() {
           </div>
 
           <aside className="logs__side">
-            <TrophyShooter>
-            <div className="win trophies">
+            <div className="win trophies" data-reveal="pop">
               <div className="win__bar">
                 <span className="win__title">TROPHY_CASE.dat</span>
               </div>
@@ -115,7 +113,6 @@ export default function Logs() {
                 ))}
               </ul>
             </div>
-            </TrophyShooter>
 
             <div className="win certs" data-reveal="pop">
               <div className="win__bar">

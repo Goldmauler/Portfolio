@@ -43,6 +43,9 @@
   border-bottom: 7px solid transparent;
   border-right: 9px solid var(--rule-strong);
 }
+.bubble.is-above::after {
+  display: none;
+}
 .bubble.is-flipped::after {
   left: auto;
   right: -9px;

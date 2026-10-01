@@ -66,11 +66,17 @@
   gap: 4px;
 }
 
+/* A tiny Infinity Stone in the current theme colour */
 .mb__swatch {
   width: 10px;
-  height: 10px;
-  background: linear-gradient(135deg, var(--accent) 50%, var(--accent-2) 50%);
-  box-shadow: 0 0 0 1px rgba(var(--fg-rgb), 0.35);
+  height: 12px;
+  border-radius: 50% / 45%;
+  background: radial-gradient(circle at 38% 32%, #ffffff 0, var(--accent) 45%, rgba(0, 0, 0, 0.55) 120%);
+  box-shadow: 0 0 6px var(--accent), 0 0 0 1px rgba(var(--fg-rgb), 0.25);
+}
+[data-mode='light'] .mb__swatch {
+  background: radial-gradient(circle at 38% 32%, #ffffff 0, #f2879f 45%, #2a2024 130%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 .mb__clock {

@@ -107,7 +107,7 @@ export default function DitherPass({ glitchRef }) {
   }, [target]);
 
   useEffect(() => {
-    const t = THEMES[theme] || THEMES.phosphor;
+    const t = THEMES[theme] || THEMES.time;
     pass.material.uniforms.uPaper.value.copy(hexToVec3(t.bg));
     pass.material.uniforms.uInk.value.copy(hexToVec3(t.ink));
     pass.material.uniforms.uInk2.value.copy(hexToVec3(t.ink2));

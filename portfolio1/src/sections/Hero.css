@@ -203,8 +203,8 @@
 /* Portrait screens: the 3D robot sits in the top half, content below it. */
 @media (max-aspect-ratio: 1/1) {
   .hero {
-    padding-top: 54vh;
-    padding-top: 54svh;
+    padding-top: 58vh;
+    padding-top: 58svh;
   }
   .hero__cue {
     display: none;
