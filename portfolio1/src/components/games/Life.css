@@ -1,0 +1,40 @@
+.life {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+}
+.life__board {
+  flex: 1;
+  min-height: 0;
+}
+.life__canvas {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  touch-action: none;
+  box-shadow: 0 0 0 1px var(--rule-strong);
+}
+.life__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+}
+.life__bar button {
+  padding: 0 6px;
+  border: 1px solid var(--rule-strong);
+  line-height: 18px;
+  color: var(--fg-dim);
+}
+.life__bar button:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.life__gen {
+  margin-left: auto;
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}

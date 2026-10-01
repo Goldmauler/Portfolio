@@ -1,0 +1,121 @@
+.holo {
+  position: relative;
+  margin: 0;
+}
+
+.holo__stage {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  padding-bottom: 34px;
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.holo__frame {
+  position: relative;
+  z-index: 1;
+  cursor: crosshair;
+}
+
+.holo__canvas {
+  display: block;
+  width: 100%;
+}
+
+/* Moving scanlines over the projection */
+.holo__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 4px, rgba(var(--bg-rgb), 0.32) 4px 5px);
+  animation: holo-scan 7s linear infinite;
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent);
+}
+
+/* Light cone from the projector base */
+.holo__beam {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 18px;
+  top: 6%;
+  z-index: 0;
+  background: linear-gradient(to top, rgba(var(--accent-rgb), 0.22), rgba(var(--accent-rgb), 0.05) 55%, transparent 85%);
+  clip-path: polygon(28% 100%, 72% 100%, 100% 0, 0 0);
+  animation: holo-beam 3.2s ease-in-out infinite;
+}
+[data-mode='light'] .holo__beam {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.04) 55%, transparent 85%);
+}
+[data-mode='light'] .holo__scan {
+  background: repeating-linear-gradient(to bottom, transparent 0 5px, rgba(var(--bg-rgb), 0.12) 5px 6px);
+}
+[data-mode='light'] .holo__base {
+  border-color: rgba(0, 0, 0, 0.7);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.05) 70%);
+  box-shadow: none;
+}
+[data-mode='light'] .holo__base::after {
+  border-color: rgba(0, 0, 0, 0.55);
+}
+/* Paper backing so the busy dithered background doesn't fight the ink. */
+[data-mode='light'] .holo__frame {
+  background: radial-gradient(ellipse 60% 55% at 50% 48%, rgba(var(--bg-rgb), 0.94) 0, rgba(var(--bg-rgb), 0.82) 55%, transparent 78%);
+}
+[data-mode='light'] .holo__cap {
+  color: var(--fg);
+}
+
+.holo__base {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 4px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.8);
+  background: radial-gradient(ellipse at center, rgba(var(--accent-rgb), 0.45), rgba(var(--accent-rgb), 0.05) 70%);
+  box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.45), inset 0 0 14px rgba(var(--accent-rgb), 0.5);
+}
+.holo__base::after {
+  content: '';
+  position: absolute;
+  inset: 6px 18%;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--accent-rgb), 0.7);
+  animation: holo-spin 6s linear infinite;
+}
+
+.holo__cap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@keyframes holo-scan {
+  to {
+    background-position: 0 120px;
+  }
+}
+@keyframes holo-beam {
+  50% {
+    opacity: 0.65;
+  }
+}
+@keyframes holo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo__stage {
+    transform: none;
+  }
+}

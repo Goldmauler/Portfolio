@@ -1,0 +1,683 @@
+/* ==========================================================================
+   VH.OS — design tokens & global styles
+   Theme colors are written onto :root by lib/themes.js; these are fallbacks.
+   ========================================================================== */
+
+:root {
+  --bg: #030605;
+  --bg-rgb: 3, 6, 5;
+  --fg: #cdeedc;
+  --fg-rgb: 205, 238, 220;
+  --accent: #00ff9d;
+  --accent-rgb: 0, 255, 157;
+  --accent-2: #00d4ff;
+  --accent-2-rgb: 0, 212, 255;
+  --panel: #08110d;
+  --on-accent: #021009;
+  --danger: #ff2a6d;
+  --warn: #ffd23f;
+
+  --fg-dim: rgba(var(--fg-rgb), 0.66);
+  --fg-faint: rgba(var(--fg-rgb), 0.38);
+  --rule: rgba(var(--fg-rgb), 0.16);
+  --rule-strong: rgba(var(--fg-rgb), 0.32);
+  --glow: rgba(var(--accent-rgb), 0.35);
+  --shadow-hard: 4px 4px 0 rgba(0, 0, 0, 0.6);
+
+  --font-display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-pixel: 'VT323', 'JetBrains Mono', monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --menubar-h: 34px;
+  --gutter: 28px;
+  --maxw: 1240px;
+
+  color-scheme: dark;
+}
+
+[data-mode='light'] {
+  color-scheme: light;
+  --shadow-hard: 3px 3px 0 rgba(0, 0, 0, 0.75);
+  --glow: transparent;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-left: 1px solid var(--rule);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border: 2px solid var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Themed 1-bit cursors (generated in lib/themes.js), mouse users only. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: var(--cursor, auto);
+  }
+  a,
+  button,
+  label,
+  summary,
+  [role='button'],
+  .cursor-robot,
+  .cursor-robot body {
+    cursor: var(--cursor-pointer, pointer);
+  }
+  input,
+  textarea {
+    cursor: text;
+  }
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 300;
+  padding: 8px 14px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.app {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.main {
+  position: relative;
+  z-index: 2;
+}
+
+.container {
+  width: min(var(--maxw), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  padding: clamp(90px, 13vh, 150px) 0;
+}
+
+/* Giant outlined word drifting behind a section (parallax via data-speed). */
+.ghost {
+  position: absolute;
+  top: 4%;
+  left: -1vw;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(100px, 21vw, 340px);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(var(--fg-rgb), 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+.ghost--right {
+  left: auto;
+  right: -1vw;
+}
+
+/* --------------------------------------------------------------------------
+   Type
+   -------------------------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(46px, 8.6vw, 148px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+.display--md {
+  font-size: clamp(38px, 6vw, 96px);
+  line-height: 0.95;
+}
+.display--sm {
+  font-size: clamp(30px, 4.2vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.display em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.7vw, 23px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+}
+
+.pixel {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Inverted pixel tag, like an OS label: [ String Tax ] */
+.tag {
+  display: inline-block;
+  padding: 0 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-pixel);
+  font-size: 19px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+.tag--ghost {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+/* Section header: [index] path ———  */
+.sec-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+.sec-meta__path {
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+.sec-meta__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--rule-strong), transparent);
+}
+
+/* Four thin corner marks around a block, as on typeset proofs. */
+.brackets {
+  --bc: rgba(var(--fg-rgb), 0.5);
+  --bl: 10px;
+  position: relative;
+  padding: clamp(28px, 5vw, 64px) clamp(14px, 4vw, 52px);
+  background:
+    linear-gradient(var(--bc), var(--bc)) top left / var(--bl) 1px no-repeat,
+    linear-gradient(var(--bc), var(--bc)) top left / 1px var(--bl) no-repeat,
+    linear-gradient(var(--bc), var(--bc)) top right / var(--bl) 1px no-repeat,
+    linear-gradient(var(--bc), var(--bc)) top right / 1px var(--bl) no-repeat,
+    linear-gradient(var(--bc), var(--bc)) bottom left / var(--bl) 1px no-repeat,
+    linear-gradient(var(--bc), var(--bc)) bottom left / 1px var(--bl) no-repeat,
+    linear-gradient(var(--bc), var(--bc)) bottom right / var(--bl) 1px no-repeat,
+    linear-gradient(var(--bc), var(--bc)) bottom right / 1px var(--bl) no-repeat;
+}
+
+/* Text column with a hairline on the left and a tiny label on top. */
+.col {
+  position: relative;
+  padding-left: 12px;
+  border-left: 1px solid var(--rule-strong);
+}
+.col > .label {
+  display: block;
+  margin-bottom: 18px;
+}
+
+/* 1-bit dot field */
+.dots {
+  background-image: radial-gradient(rgba(var(--fg-rgb), 0.2) 0.9px, transparent 1.3px);
+  background-size: 5px 5px;
+}
+.dots--dense {
+  background-image: radial-gradient(rgba(var(--fg-rgb), 0.32) 1px, transparent 1.4px);
+  background-size: 4px 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Retro OS windows
+   -------------------------------------------------------------------------- */
+
+.win {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--rule-strong);
+  box-shadow: var(--shadow-hard), 0 0 0 1px rgba(0, 0, 0, 0.35);
+}
+.win__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  height: 24px;
+  padding: 0 4px 0 7px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-pixel);
+  font-size: 19px;
+  line-height: 24px;
+  user-select: none;
+  white-space: nowrap;
+}
+.win__title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.win__btn {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border: 1px solid currentColor;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+}
+.win__btn:hover {
+  background: var(--on-accent);
+  color: var(--accent);
+}
+.win__body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 10px 12px;
+}
+.win--inactive .win__bar {
+  background: rgba(var(--fg-rgb), 0.18);
+  color: var(--fg);
+}
+
+/* --------------------------------------------------------------------------
+   Controls
+   -------------------------------------------------------------------------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid var(--accent);
+  background: var(--panel);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--accent);
+  transition: transform 0.12s, box-shadow 0.12s, background-color 0.2s, color 0.2s;
+}
+.btn:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--accent);
+}
+.btn--solid {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 3px 3px 0 rgba(var(--fg-rgb), 0.5);
+}
+.btn--solid:hover {
+  background: var(--fg);
+  border-color: var(--fg);
+}
+.btn--quiet {
+  border-color: var(--rule-strong);
+  color: var(--fg);
+  box-shadow: 3px 3px 0 var(--rule-strong);
+}
+.btn[disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border: 1px solid var(--rule-strong);
+  color: var(--fg-dim);
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.chip::before {
+  content: '+';
+  margin-right: 5px;
+  color: var(--accent);
+}
+
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--glow);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+.caret::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+
+.accent {
+  color: var(--accent);
+}
+.accent-2 {
+  color: var(--accent-2);
+}
+.dim {
+  color: var(--fg-dim);
+}
+.faint {
+  color: var(--fg-faint);
+}
+.danger {
+  color: var(--danger);
+}
+.warn {
+  color: var(--warn);
+}
+
+/* RGB-split glitch: element needs data-text equal to its content */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.glitch::before {
+  color: var(--accent-2);
+}
+.glitch::after {
+  color: var(--danger);
+}
+.glitch.is-glitching::before {
+  opacity: 0.9;
+  animation: glitch-a 0.3s steps(2) infinite;
+}
+.glitch.is-glitching::after {
+  opacity: 0.9;
+  animation: glitch-b 0.35s steps(2) infinite;
+}
+
+/* Redaction bar that wipes away on reveal */
+.redact {
+  position: relative;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background-image: linear-gradient(var(--fg), var(--fg));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: right;
+  color: transparent;
+  transition: background-size 0.9s steps(12), color 0.2s 0.75s;
+}
+.redact.is-revealed {
+  background-size: 0% 100%;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Reveal initial state (only when JS motion is enabled)
+   -------------------------------------------------------------------------- */
+
+.js-motion [data-reveal] {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.js-motion [data-reveal='left'] {
+  transform: translateX(-48px);
+}
+.js-motion [data-reveal='right'] {
+  transform: translateX(48px);
+}
+.js-motion [data-reveal='pop'] {
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   Screen FX
+   -------------------------------------------------------------------------- */
+
+.crt {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+.crt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, 0.16) 2px 3px);
+}
+.crt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.5) 100%);
+}
+[data-mode='light'] .crt::before {
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, 0.05) 2px 3px);
+}
+[data-mode='light'] .crt::after {
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.12) 100%);
+}
+
+.grain {
+  position: fixed;
+  inset: -8%;
+  z-index: 91;
+  width: 116%;
+  height: 116%;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.7s steps(6) infinite;
+  will-change: transform;
+}
+
+/* Fixed 3D background */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.scene canvas {
+  width: 100% !important;
+  height: 100% !important;
+  image-rendering: pixelated;
+}
+.scene-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(rgba(var(--accent-rgb), 0.18) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+  -webkit-mask-image: radial-gradient(circle at 70% 40%, #000 0, transparent 45%);
+  mask-image: radial-gradient(circle at 70% 40%, #000 0, transparent 45%);
+}
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -5%); }
+  60% { transform: translate(-6%, -2%); }
+  80% { transform: translate(5%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes glitch-a {
+  0% { clip-path: inset(10% 0 70% 0); transform: translate(-4px, -1px); }
+  50% { clip-path: inset(60% 0 5% 0); transform: translate(3px, 1px); }
+  100% { clip-path: inset(35% 0 40% 0); transform: translate(-2px, 0); }
+}
+
+@keyframes glitch-b {
+  0% { clip-path: inset(70% 0 8% 0); transform: translate(4px, 1px); }
+  50% { clip-path: inset(5% 0 75% 0); transform: translate(-3px, -1px); }
+  100% { clip-path: inset(45% 0 30% 0); transform: translate(2px, 0); }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive & motion preferences
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+  }
+  body {
+    font-size: 13.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain {
+    display: none;
+  }
+}

@@ -1,0 +1,79 @@
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 22px;
+  background: var(--bg);
+  clip-path: inset(0 0 0 0);
+}
+.boot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(var(--fg-rgb), 0.12) 0.9px, transparent 1.3px);
+  background-size: 5px 5px;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0, transparent 60%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0, transparent 60%);
+}
+
+.boot__win {
+  position: relative;
+  width: min(300px, 86vw);
+}
+.boot__body {
+  font-size: 19px;
+  line-height: 1.05;
+}
+.boot__item {
+  min-height: 1.1em;
+  color: var(--fg-dim);
+}
+.boot__bar {
+  position: relative;
+  height: 20px;
+  margin-top: 10px;
+  border: 1px solid var(--rule-strong);
+  overflow: hidden;
+}
+.boot__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.boot__pct {
+  position: absolute;
+  inset: 0;
+  padding-left: 6px;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  line-height: 19px;
+  color: var(--fg);
+}
+.boot__pct--inv {
+  color: var(--on-accent);
+}
+
+.boot__log {
+  position: relative;
+  min-height: 92px;
+  width: min(360px, 86vw);
+  list-style: none;
+  font-size: 11.5px;
+  line-height: 1.9;
+  color: var(--fg-dim);
+}
+
+.boot__skip {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}

@@ -1,0 +1,278 @@
+.kv {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  font-size: 12.5px;
+}
+.kv--center {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.kv__title {
+  font-size: 32px;
+  line-height: 1;
+  color: var(--accent);
+}
+.kv__rules {
+  display: grid;
+  gap: 6px;
+  max-width: 440px;
+  list-style: none;
+  color: var(--fg-dim);
+  line-height: 1.5;
+}
+.kv__rules b {
+  color: var(--accent);
+}
+.kv kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 0 4px;
+  border: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg);
+}
+
+/* HUD */
+.kv__hud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.kv__q {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--accent);
+}
+.kv__score {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+}
+.kv__score b {
+  color: var(--warn);
+}
+[data-mode='light'] .kv__score b {
+  color: var(--fg);
+}
+.kv__pips {
+  display: flex;
+  gap: 3px;
+}
+.kv__pips i {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--rule-strong);
+}
+.kv__pips i.is-now {
+  border-color: var(--accent);
+}
+.kv__pips i.is-ok {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.kv__pips i.is-bad {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+.kv__pips--lg i {
+  width: 16px;
+  height: 16px;
+}
+.kv__timer {
+  height: 5px;
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.kv__timer span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform 0.1s linear;
+}
+.kv__timer span.is-low {
+  background: var(--danger);
+}
+
+/* Question + options */
+.kv__question {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.kv__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.kv__opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid var(--rule-strong);
+  background: rgba(var(--bg-rgb), 0.4);
+  text-align: left;
+  font-size: 12.5px;
+  line-height: 1.35;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s, opacity 0.2s;
+}
+.kv__opt:not(:disabled):hover,
+.kv__opt:not(:disabled):focus-visible {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.12);
+  outline: none;
+}
+.kv__key {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+}
+.kv__opt.is-right {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.2);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.kv__opt.is-wrong {
+  border-color: var(--danger);
+  background: rgba(255, 42, 109, 0.14);
+  animation: kv-shake 0.3s steps(4);
+}
+.kv__opt.is-wrong .kv__key {
+  background: var(--danger);
+  color: #fff;
+}
+.kv__opt.is-dim {
+  opacity: 0.4;
+}
+.kv__opt:disabled {
+  cursor: default;
+}
+
+/* Reveal */
+.kv__reveal {
+  min-height: 92px;
+  padding: 10px 12px;
+  border: 1px dashed var(--rule);
+}
+.kv__reveal.is-on {
+  border-style: solid;
+  border-color: var(--rule-strong);
+  background: rgba(var(--bg-rgb), 0.55);
+  animation: kv-in 0.2s steps(3);
+}
+.kv__verdict {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: pre;
+}
+[data-mode='light'] .kv__verdict.danger {
+  color: #8f0029;
+}
+.kv__fact {
+  margin-top: 4px;
+  color: var(--fg);
+  line-height: 1.5;
+}
+.kv__revealbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+.kv__where {
+  font-size: 11.5px;
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
+.kv__next {
+  min-height: 34px;
+  padding: 0 14px;
+}
+
+/* Results */
+.kv__big {
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+.kv__big span {
+  font-size: 32px;
+  color: var(--fg-dim);
+}
+.kv__rank {
+  font-size: 30px;
+  line-height: 1;
+}
+.kv__line {
+  max-width: 380px;
+  color: var(--fg-dim);
+}
+.kv__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+@keyframes kv-shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+@keyframes kv-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .kv__options {
+    grid-template-columns: 1fr;
+  }
+  .kv__score {
+    display: none;
+  }
+}
+
+/* The Doctor Strange moment */
+.kv--saga .kv__title {
+  color: #2bff88;
+  text-shadow: 0 0 14px rgba(43, 255, 136, 0.7);
+}
+.kv__gem {
+  width: 44px;
+  height: 52px;
+  border-radius: 50% / 45%;
+  background: radial-gradient(circle at 40% 35%, #f0fff6 0, #8dffc0 18%, #1fe27a 48%, #077a3a 80%, #03391b 100%);
+  box-shadow: 0 0 18px #2bff88, 0 0 46px rgba(43, 255, 136, 0.7);
+  animation: kv-gem 0.9s ease-in-out infinite alternate;
+}
+@keyframes kv-gem {
+  to {
+    transform: scale(1.12);
+    box-shadow: 0 0 26px #2bff88, 0 0 70px rgba(43, 255, 136, 0.9);
+  }
+}

@@ -1,0 +1,553 @@
+.pv {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  font-family: var(--font-mono);
+}
+.pv-label {
+  font-size: 11px;
+  fill: var(--fg-dim);
+}
+.pv-mini {
+  font-size: 8.5px;
+  fill: var(--fg);
+  letter-spacing: 0.04em;
+}
+.pv-acc {
+  fill: var(--accent);
+}
+.pv-inv {
+  fill: var(--on-accent);
+}
+.pv-line {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+.pv-box {
+  fill: var(--panel);
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+.pv-fill {
+  fill: var(--fg);
+}
+
+/* Agents */
+.pv-packet {
+  fill: var(--accent);
+  animation: pv-packet 3.2s steps(24) infinite;
+}
+.pv-box--0,
+.pv-box--1,
+.pv-box--2,
+.pv-box--3,
+.pv-box--4 {
+  animation: pv-stage 3.2s steps(1) infinite;
+}
+.pv-box--1 {
+  animation-delay: 0.64s;
+}
+.pv-box--2 {
+  animation-delay: 1.28s;
+}
+.pv-box--3 {
+  animation-delay: 1.92s;
+}
+.pv-box--4 {
+  animation-delay: 2.56s;
+}
+.pv-loop {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+  animation: pv-dash 1s linear infinite;
+}
+
+/* ECG */
+.pv-ecg {
+  animation: pv-ecg 2.6s linear infinite;
+}
+.pv-wave {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: bevel;
+}
+.pv-ecg-fade {
+  fill: none;
+}
+
+/* Cursors */
+.pv-stroke {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 2;
+  stroke-dasharray: 520;
+  stroke-dashoffset: 520;
+  animation: pv-draw 4.5s ease-in-out infinite;
+}
+.pv-sticky {
+  fill: var(--panel);
+  stroke: var(--accent);
+}
+.pv-arrow {
+  fill: var(--fg);
+  stroke: var(--bg);
+  stroke-width: 0.8;
+}
+.pv-name {
+  fill: var(--accent);
+}
+.pv-cur--b .pv-name {
+  fill: var(--accent-2);
+}
+.pv-cur--c .pv-name {
+  fill: var(--fg);
+}
+.pv-cur--a {
+  animation: pv-cur-a 5s ease-in-out infinite;
+}
+.pv-cur--b {
+  animation: pv-cur-b 6s ease-in-out infinite;
+}
+.pv-cur--c {
+  animation: pv-cur-c 7s ease-in-out infinite;
+}
+
+/* Layers */
+.pv-iso {
+  fill: var(--panel);
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+.pv-iso--dots {
+  fill: url(#pv-dots);
+}
+.pv-iso--hatch {
+  fill: url(#pv-hatch);
+}
+.pv-layer--1 {
+  animation: pv-bob 3s ease-in-out infinite;
+}
+.pv-layer--2 {
+  animation: pv-bob 3s ease-in-out 0.3s infinite;
+}
+.pv-layer--3 {
+  animation: pv-bob 3s ease-in-out 0.6s infinite;
+}
+.pv-fault {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+/* Browser */
+.pv-url {
+  fill: none;
+  stroke: var(--rule-strong);
+}
+.pv-load {
+  fill: var(--accent);
+  transform-origin: 40px 37px;
+  animation: pv-load 4s steps(12) infinite;
+}
+.pv-block {
+  stroke: var(--fg);
+  stroke-width: 1;
+  fill: var(--panel);
+  opacity: 0;
+  animation: pv-block 4s steps(1) infinite;
+}
+.pv-block--1 {
+  fill: var(--accent);
+  animation-delay: 0.6s;
+}
+.pv-block--2 {
+  animation-delay: 1.2s;
+}
+.pv-block--3 {
+  animation-delay: 1.5s;
+}
+.pv-block--4 {
+  animation-delay: 1.8s;
+}
+
+@keyframes pv-packet {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(372px);
+  }
+}
+@keyframes pv-stage {
+  0%,
+  20% {
+    fill: rgba(var(--accent-rgb), 0.28);
+    stroke: var(--accent);
+  }
+  20.01%,
+  100% {
+    fill: var(--panel);
+    stroke: var(--fg);
+  }
+}
+@keyframes pv-dash {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+@keyframes pv-ecg {
+  to {
+    transform: translateX(-100px);
+  }
+}
+@keyframes pv-draw {
+  0% {
+    stroke-dashoffset: 520;
+  }
+  60%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -520;
+  }
+}
+@keyframes pv-cur-a {
+  0%,
+  100% {
+    transform: translate(60px, 130px);
+  }
+  50% {
+    transform: translate(170px, 110px);
+  }
+}
+@keyframes pv-cur-b {
+  0%,
+  100% {
+    transform: translate(300px, 140px);
+  }
+  50% {
+    transform: translate(220px, 150px);
+  }
+}
+@keyframes pv-cur-c {
+  0%,
+  100% {
+    transform: translate(120px, 40px);
+  }
+  50% {
+    transform: translate(180px, 70px);
+  }
+}
+@keyframes pv-bob {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes pv-load {
+  from {
+    transform: scaleX(0);
+  }
+  50%,
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pv-block {
+  0% {
+    opacity: 0;
+  }
+  1%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Shared bits for the newer visuals */
+.pv-dim {
+  fill: var(--fg-faint);
+}
+.pv-dot {
+  fill: var(--accent);
+}
+.pv-hub {
+  fill: var(--fg);
+}
+.pv-blink {
+  animation: pv-blink 1.2s steps(1) infinite;
+}
+.pv-ray {
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+
+/* Truck */
+.pv-mask {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-dasharray: 5 3;
+  animation: pv-dash 0.8s linear infinite;
+}
+.pv-sweep {
+  stroke: var(--accent-2);
+  stroke-width: 2;
+  animation: pv-sweep 2.6s ease-in-out infinite alternate;
+}
+
+/* Loop */
+.pv-cube {
+  animation: pv-bob 2.4s ease-in-out infinite;
+}
+.pv-cyc {
+  opacity: 0;
+  animation: pv-cycle 7.2s steps(1) infinite;
+}
+.pv-cyc--2 {
+  animation-delay: 2.4s;
+}
+.pv-cyc--3 {
+  animation-delay: 4.8s;
+}
+
+/* Ring */
+.pv-ring {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 4;
+}
+.pv-repl {
+  stroke: var(--accent);
+  stroke-dasharray: 4 3;
+  animation: pv-dash 1s linear infinite;
+}
+.pv-node--fail .pv-box {
+  animation: pv-fail 2.4s steps(1) infinite;
+}
+.pv-handoff {
+  fill: none;
+  stroke: var(--accent-2);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 4;
+  animation: pv-dash 0.9s linear infinite;
+}
+
+/* Detect */
+.pv-bbox {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+.pv-bbtag {
+  fill: var(--accent);
+}
+.pv-bb {
+  opacity: 0;
+  animation: pv-bb 4.5s steps(1) infinite;
+}
+.pv-bb--2 {
+  animation-delay: 0.6s;
+}
+.pv-bb--3 {
+  animation-delay: 1.2s;
+}
+
+/* Editor */
+.pv-code {
+  fill: var(--rule-strong);
+}
+.pv-sel {
+  fill: var(--accent);
+  animation: pv-blink 1.6s steps(1) infinite;
+}
+.pv-msg {
+  opacity: 0;
+  animation: pv-bb 5s steps(1) 1s infinite;
+}
+.pv-status {
+  fill: var(--accent);
+}
+
+/* Redact */
+.pv-bar {
+  fill: var(--fg);
+}
+.pv-review {
+  fill: none;
+  stroke: var(--warn);
+  stroke-width: 1.6;
+  stroke-dasharray: 4 2;
+  animation: pv-dash 0.8s linear infinite;
+}
+[data-mode='light'] .pv-review {
+  stroke: var(--fg);
+}
+.pv-missed {
+  fill: rgba(var(--danger-rgb, 255, 42, 109), 0.35);
+  stroke: var(--danger);
+}
+.pv-bar--late {
+  transform-box: fill-box;
+  transform-origin: left;
+  animation: pv-late 4s steps(8) infinite;
+}
+
+@keyframes pv-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+@keyframes pv-sweep {
+  from {
+    transform: translateX(56px);
+  }
+  to {
+    transform: translateX(300px);
+  }
+}
+@keyframes pv-cycle {
+  0%,
+  33% {
+    opacity: 1;
+  }
+  33.01%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pv-fail {
+  0%,
+  50% {
+    stroke: var(--danger);
+    stroke-dasharray: 3 2;
+  }
+  50.01%,
+  100% {
+    stroke: var(--fg);
+    stroke-dasharray: none;
+  }
+}
+@keyframes pv-bb {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pv-late {
+  0%,
+  40% {
+    transform: scaleX(0);
+  }
+  70%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Haul truck */
+.pv-fill-acc {
+  fill: var(--accent);
+}
+.pv-truck {
+  animation: pv-idle 0.18s steps(2) infinite;
+}
+.pv-body {
+  fill: rgba(var(--bg-rgb), 0.55);
+  stroke: var(--fg);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.pv-rail {
+  stroke: var(--fg);
+  stroke-width: 4;
+  stroke-linecap: square;
+}
+.pv-rib {
+  stroke: var(--rule-strong);
+  stroke-width: 1.2;
+}
+.pv-canopy {
+  fill: var(--panel);
+  stroke: var(--fg);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.pv-glass {
+  fill: rgba(var(--accent-2-rgb), 0.28);
+  stroke: var(--fg);
+  stroke-width: 1;
+}
+.pv-hoist {
+  stroke: var(--fg);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.pv-ladder {
+  stroke: var(--fg);
+  stroke-width: 1.2;
+  opacity: 0.8;
+}
+.pv-fender {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 3;
+}
+.pv-tire {
+  fill: #050807;
+  stroke: var(--fg);
+  stroke-width: 1.6;
+}
+[data-mode='light'] .pv-tire {
+  fill: var(--fg);
+}
+.pv-tread {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 5;
+  opacity: 0.55;
+}
+[data-mode='light'] .pv-tread {
+  stroke: var(--bg);
+}
+.pv-rim {
+  fill: var(--panel);
+  stroke: var(--fg);
+  stroke-width: 1.4;
+}
+.pv-rim--inner {
+  fill: none;
+  stroke: var(--rule-strong);
+}
+.pv-cam {
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.4;
+}
+.pv-lc {
+  fill: var(--accent);
+  animation: pv-blink 1.4s steps(1) infinite;
+}
+.pv-lc--b {
+  animation-delay: 0.7s;
+}
+
+@keyframes pv-idle {
+  50% {
+    transform: translateY(0.6px);
+  }
+}

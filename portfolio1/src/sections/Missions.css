@@ -1,0 +1,295 @@
+.missions {
+  position: relative;
+  padding-top: clamp(90px, 13vh, 150px);
+}
+.missions__head {
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.missions__pin {
+  position: relative;
+}
+
+.missions__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+  width: max-content;
+  padding: 0 max(var(--gutter), calc((100vw - var(--maxw)) / 2));
+  perspective: 1400px;
+  will-change: transform;
+}
+
+.missions__intro {
+  flex: 0 0 auto;
+  width: min(360px, 70vw);
+}
+.missions__intro .lead {
+  font-size: clamp(20px, 2vw, 28px);
+}
+.missions__hint {
+  display: block;
+  margin-top: 18px;
+  color: var(--accent);
+}
+
+/* Card */
+.mission {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  position: relative;
+  flex: 0 0 auto;
+  width: min(520px, 84vw);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s;
+}
+.mission:hover {
+  box-shadow: 8px 8px 0 rgba(var(--accent-rgb), 0.25), 0 0 0 1px var(--accent);
+}
+.mission__glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(var(--fg-rgb), 0.08), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.mission:hover .mission__glare {
+  opacity: 1;
+}
+.mission__year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding-right: 4px;
+}
+
+.mission__visual {
+  position: relative;
+  height: clamp(130px, 22vh, 190px);
+  border-bottom: 1px solid var(--rule-strong);
+  overflow: hidden;
+}
+.mission__visual-inner {
+  position: absolute;
+  inset: 8px 24px;
+}
+.mission__num {
+  position: absolute;
+  right: 12px;
+  bottom: -6px;
+  font-size: 64px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--rule-strong);
+}
+
+.mission__deckbadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px 2px 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  transition: transform 0.12s;
+}
+.mission__deckbadge .pixel {
+  font-size: 17px;
+  line-height: 18px;
+}
+.mission__deckbadge:hover {
+  transform: translate(-1px, -1px);
+  background: var(--fg);
+}
+
+.mission__body {
+  padding: 16px 18px 18px;
+}
+.mission__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.mission__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+.mission__sub {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--fg-dim);
+}
+.mission__metric {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 14px 0 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.mission__metric b {
+  flex: none;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+.mission__metric span {
+  font-size: 11.5px;
+  color: var(--fg-dim);
+}
+.mission__desc {
+  font-size: 12.5px;
+  color: var(--fg);
+}
+.mission__points {
+  margin-top: 8px;
+  padding-left: 14px;
+  list-style: square;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--fg-dim);
+}
+.mission__points li::marker {
+  color: var(--accent);
+}
+.mission__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  margin-top: 14px;
+}
+.mission__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.mission__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex: none;
+  gap: 6px 14px;
+  max-width: 55%;
+}
+.mission__link {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid currentColor;
+}
+
+.missions__end {
+  flex: 0 0 auto;
+  width: 300px;
+  align-self: center;
+  transition: transform 0.2s;
+}
+.missions__end .win__body {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px 16px;
+  list-style: none;
+}
+.missions__end li a {
+  display: grid;
+  padding: 8px 6px;
+  border-bottom: 1px dotted var(--rule-strong);
+  transition: background-color 0.15s;
+}
+.missions__end li a:hover {
+  background: rgba(var(--accent-rgb), 0.1);
+}
+.missions__end-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+}
+.missions__end-gh {
+  font-size: 24px;
+  color: var(--accent);
+  border-bottom: 0 !important;
+}
+
+.missions__progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+  font-size: 19px;
+}
+.missions__bar {
+  flex: 1;
+  height: 2px;
+  background: var(--rule);
+}
+.missions__bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Pinned horizontal layout only on wide screens */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .missions__pin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    padding-top: var(--menubar-h);
+  }
+}
+
+@media (max-height: 820px) and (min-width: 1024px) {
+  .mission__points {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px), (prefers-reduced-motion: reduce) {
+  .missions {
+    padding-bottom: 40px;
+  }
+  .missions__track {
+    flex-direction: column;
+    align-items: stretch;
+    width: auto;
+    padding: 0 var(--gutter);
+    perspective: none;
+  }
+  .missions__intro,
+  .mission,
+  .missions__end {
+    width: auto;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+  .mission {
+    transform: none;
+  }
+  .missions__hint,
+  .missions__progress {
+    display: none;
+  }
+}

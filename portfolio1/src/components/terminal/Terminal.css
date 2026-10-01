@@ -1,0 +1,119 @@
+.term {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  background: rgba(0, 0, 0, 0.22);
+}
+[data-mode='light'] .term {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.term__out {
+  flex: 1;
+  min-height: 0;
+  padding: 10px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.t-line--in {
+  color: var(--fg);
+}
+.t-line--out {
+  color: var(--fg-dim);
+}
+.t-line--dim {
+  color: var(--fg-faint);
+}
+.t-line--accent,
+.t-line--ok {
+  color: var(--accent);
+}
+.t-line--err {
+  color: var(--danger);
+}
+.t-line--warn {
+  color: var(--warn);
+}
+[data-mode='light'] .t-line--err {
+  color: #8f0029;
+}
+[data-mode='light'] .t-line--warn {
+  color: #5c4500;
+}
+
+.t-prompt {
+  white-space: nowrap;
+}
+.t-link {
+  color: var(--accent-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+[data-mode='light'] .t-link {
+  color: var(--fg);
+}
+.t-swatches {
+  display: inline-flex;
+  gap: 0;
+  margin-left: 22ch;
+}
+.t-swatches i {
+  width: 22px;
+  height: 12px;
+}
+.t-swatches i:nth-child(1) {
+  background: var(--accent);
+}
+.t-swatches i:nth-child(2) {
+  background: var(--accent-2);
+}
+.t-swatches i:nth-child(3) {
+  background: var(--danger);
+}
+.t-swatches i:nth-child(4) {
+  background: var(--fg);
+}
+
+.term__row {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  cursor: text;
+}
+.term__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  caret-color: var(--accent);
+}
+
+.term__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 10px;
+  border-top: 1px solid var(--rule);
+}
+.term__chip {
+  padding: 1px 8px;
+  border: 1px solid var(--rule-strong);
+  font-size: 11px;
+  color: var(--fg-dim);
+}
+.term__chip:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
