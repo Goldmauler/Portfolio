@@ -5,6 +5,7 @@ import { scrollToTarget } from '../lib/smoothScroll';
 import { useStore, emit } from '../lib/store';
 import { cycleTheme, THEMES } from '../lib/themes';
 import { useUnlocked, SECRETS, unlock } from '../lib/secrets';
+import { isAudioOn, toggleAudio, playRetroClick } from '../lib/retroAudio';
 import './MenuBar.css';
 
 function Clock() {
@@ -24,9 +25,16 @@ function Clock() {
 export default function MenuBar() {
   const [active, setActive] = useState(null);
   const [open, setOpen] = useState(false);
+  const [sound, setSound] = useState(isAudioOn);
   const theme = useStore((s) => s.theme);
   const unlocked = useUnlocked();
   const progressRef = useRef(null);
+
+  const onSoundToggle = () => {
+    const next = toggleAudio();
+    setSound(next);
+    if (next) playRetroClick(780);
+  };
 
   useEffect(() => {
     const triggers = sections.map((s) =>
@@ -112,6 +120,14 @@ export default function MenuBar() {
           >
             <span className="mb__swatch" aria-hidden="true" />
             {THEMES[theme]?.label}
+          </button>
+          <button
+            className="mb__item mb__sound"
+            onClick={onSoundToggle}
+            title={sound ? 'Retro sound active — click to mute' : 'Retro sound muted — click to unmute'}
+            aria-label={sound ? 'Mute retro sound' : 'Unmute retro sound'}
+          >
+            <span style={{ fontSize: '13px', lineHeight: 1 }}>{sound ? '🔊' : '🔇'}</span>
           </button>
           <Clock />
           <button

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { unlock } from '../../lib/secrets';
 import { emit, subscribe, getState } from '../../lib/store';
+import { playPowerUp, playKeyClick, playLaser, playExplosion, playGameOver, playError, playRetroClick } from '../../lib/retroAudio';
 import './Firewall.css';
 
 const WORDS = [
@@ -72,6 +73,7 @@ export default function Firewall({ active }) {
   };
 
   const start = () => {
+    playPowerUp();
     const s = g.current;
     Object.assign(s, { phase: 'play', packets: [], particles: [], typed: '', score: 0, kills: 0, level: 1, hp: 100, combo: 0, spawnIn: 0.4 });
     sync();
@@ -79,6 +81,7 @@ export default function Firewall({ active }) {
   };
 
   const gameOver = () => {
+    playGameOver();
     const s = g.current;
     s.phase = 'over';
     s.needsDraw = true;
@@ -101,6 +104,7 @@ export default function Firewall({ active }) {
       s.typed = next;
       const hit = s.packets.find((p) => p.word === next);
       if (hit) {
+        playLaser();
         hit.dead = true;
         s.kills += 1;
         s.combo += 1;
@@ -112,8 +116,11 @@ export default function Firewall({ active }) {
         s.typed = '';
         if (s.score >= 300) unlock('firewall');
         sync();
+      } else {
+        playKeyClick();
       }
     } else {
+      playError();
       s.combo = 0;
       s.shake = 0.12;
     }
@@ -206,6 +213,7 @@ export default function Firewall({ active }) {
           s.combo = 0;
           s.shake = 0.3;
           s.flash = 0.25;
+          playExplosion();
           if (s.typed && p.word.startsWith(s.typed)) s.typed = '';
           if (s.hp <= 0) gameOver();
           else setUi((u) => ({ ...u, hp: s.hp }));

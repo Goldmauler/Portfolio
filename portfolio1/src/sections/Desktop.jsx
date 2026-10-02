@@ -12,6 +12,7 @@ import { gsap } from '../lib/motion';
 import { scrollToTarget } from '../lib/smoothScroll';
 import { prefersReducedMotion, hasFinePointer } from '../lib/device';
 import { profile } from '../data/profile';
+import { playRetroClick, playWindowOpen, playWindowClose } from '../lib/retroAudio';
 import './Desktop.css';
 
 const APPS = {
@@ -267,6 +268,7 @@ export default function Desktop() {
       }
       if (!APPS[id] || !desk) return;
       setSelected(null);
+      playWindowOpen();
       if (id === 'readme') {
         markGuideSeen();
         setNudge(false);
@@ -293,6 +295,7 @@ export default function Desktop() {
 
   const close = useCallback(
     (id) => {
+      playWindowClose();
       const winEl = deskRef.current?.querySelector(`[data-win="${id}"]`);
       const iconEl = deskRef.current?.querySelector(`[data-icon="${id}"]`);
       if (winEl && iconEl && !compact) zoom(rectOf(winEl), rectOf(iconEl));
@@ -342,6 +345,7 @@ export default function Desktop() {
 
   const onIconClick = (e, id) => {
     e.stopPropagation();
+    playRetroClick(560);
     // Keyboard activation, touch and compact mode open on a single click.
     if (e.detail === 0 || compact || e.nativeEvent.pointerType === 'touch') open(id, e.currentTarget);
     else setSelected(id);
@@ -381,6 +385,7 @@ export default function Desktop() {
           onPointerDown={(e) => e.target === e.currentTarget && setSelected(null)}
         >
           <span className="tag os__tag">VH.OS 1.0</span>
+          <div className="os__wallpaper" aria-hidden="true" />
           <div className="os__blob os__blob--a" aria-hidden="true" />
           <div className="os__blob os__blob--b" aria-hidden="true" />
 
@@ -435,7 +440,7 @@ export default function Desktop() {
 
           {!compact && (
             <nav className="os__taskbar" aria-label="Taskbar">
-              <button data-task="readme" className="os__start" onClick={() => open('readme', startEl())}>
+              <button data-task="readme" className="os__start" onClick={() => { playRetroClick(640); open('readme', startEl()); }}>
                 <span className="pixel">▶ VH.OS</span> how to play
               </button>
               <div className="os__tasks">
@@ -444,7 +449,11 @@ export default function Desktop() {
                     key={id}
                     data-task={id}
                     className={`os__task${order.includes(id) ? ' is-open' : ''}${top === id ? ' is-top' : ''}`}
-                    onClick={(e) => (order.includes(id) ? focus(id) : open(id, e.currentTarget))}
+                    onClick={(e) => {
+                      playRetroClick(600);
+                      if (order.includes(id)) focus(id);
+                      else open(id, e.currentTarget);
+                    }}
                   >
                     <PixelIcon name={TASK_ICON[id]} scale={1} />
                     {TASK_LABEL[id]}

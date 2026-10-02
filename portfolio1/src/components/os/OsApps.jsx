@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { SECRETS, useUnlocked, resetSecrets } from '../../lib/secrets';
+import { playRetroClick } from '../../lib/retroAudio';
 
 const STEPS = [
   ['Open an app', 'Double-click a desktop icon (tap on phones) — or click it in the taskbar at the bottom.'],
@@ -31,13 +32,13 @@ export function Readme({ api }) {
       </p>
       {api && (
         <div className="guide__actions">
-          <button className="btn btn--solid" onClick={() => api.open('quiz')}>
+          <button className="btn btn--solid" onClick={() => { playRetroClick(660); api.open('quiz'); }}>
             ▶ Play Know Vimal
           </button>
-          <button className="btn" onClick={() => api.open('firewall')}>
+          <button className="btn" onClick={() => { playRetroClick(600); api.open('firewall'); }}>
             ▶ Play Firewall
           </button>
-          <button className="btn btn--quiet" onClick={() => api.focus('terminal')}>
+          <button className="btn btn--quiet" onClick={() => { playRetroClick(540); api.focus('terminal'); }}>
             Use terminal
           </button>
         </div>

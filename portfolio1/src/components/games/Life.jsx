@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { unlock } from '../../lib/secrets';
 import { subscribe, getState } from '../../lib/store';
 import { prefersReducedMotion } from '../../lib/device';
+import { playCellPop, playRetroClick } from '../../lib/retroAudio';
 import './Life.css';
 
 const COLS = 30;
@@ -136,6 +137,7 @@ export default function Life() {
     const value = grid.current[idx(x, y)] ? 0 : 1;
     paint.current = value;
     grid.current[idx(x, y)] = value;
+    playCellPop(y, x);
     unlock('life');
     draw();
   };
@@ -143,14 +145,18 @@ export default function Life() {
     if (paint.current === null) return;
     const [x, y] = cellAt(e);
     if (x < 0 || y < 0 || x >= COLS || y >= ROWS) return;
-    grid.current[idx(x, y)] = paint.current;
-    draw();
+    if (grid.current[idx(x, y)] !== paint.current) {
+      grid.current[idx(x, y)] = paint.current;
+      playCellPop(y, x);
+      draw();
+    }
   };
   const onUp = () => {
     paint.current = null;
   };
 
-  const act = (fn) => () => {
+  const act = (fn, pitch = 640) => () => {
+    playRetroClick(pitch);
     unlock('life');
     fn();
     draw();

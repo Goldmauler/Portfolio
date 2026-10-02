@@ -44,6 +44,20 @@
   z-index: 3;
 }
 
+.os__wallpaper {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/retro_os_wallpaper.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+  filter: contrast(1.15) saturate(1.2);
+}
+
 /* CSS halftone spheres, like printed dot shading */
 .os__blob {
   position: absolute;

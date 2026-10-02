@@ -33,9 +33,17 @@ function Mission({ p, i }) {
         <span className="mission__year">{p.year}</span>
       </div>
       <div className="mission__visual dots">
-        <div className="mission__visual-inner">
-          <ProjectVisual kind={p.visual} />
-        </div>
+        {p.image ? (
+          <div className="mission__thumb-wrap">
+            <img src={p.image} alt={p.title} className="mission__thumb" loading="lazy" />
+            <div className="mission__thumb-scanlines" />
+            <div className="mission__thumb-badge pixel">AI.PREVIEW</div>
+          </div>
+        ) : (
+          <div className="mission__visual-inner">
+            <ProjectVisual kind={p.visual} />
+          </div>
+        )}
         <span className="mission__num pixel">{String(i + 1).padStart(2, '0')}</span>
         {p.deck && (
           <button className="mission__deckbadge" onClick={() => emit('deck:open', p.id)}>

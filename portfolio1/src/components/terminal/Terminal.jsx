@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { COMMANDS, COMMAND_NAMES } from './commands';
 import { unlock } from '../../lib/secrets';
+import { playKeyClick, playEnter, playRetroClick, playError, playSuccess } from '../../lib/retroAudio';
 import './Terminal.css';
 
 let lineId = 0;
@@ -78,9 +79,11 @@ export default function Terminal({ close }) {
     const [name, ...args] = cmdline.split(/\s+/);
     const cmd = COMMANDS[name.toLowerCase()];
     if (!cmd) {
+      playError();
       print(`command not found: ${name}. Type 'help'.`, 'err');
       return;
     }
+    playEnter();
     try {
       cmd.run(args, {
         print,
@@ -92,11 +95,13 @@ export default function Terminal({ close }) {
         history: history.current,
       });
     } catch (err) {
+      playError();
       print(`segfault in ${name}: ${err.message}`, 'err');
     }
   };
 
   const complete = () => {
+    playRetroClick(720);
     const parts = input.split(/\s+/);
     const last = parts[parts.length - 1].toLowerCase();
     const options = parts.length <= 1 ? COMMAND_NAMES.filter((n) => !COMMANDS[n].hidden) : COMMANDS[parts[0]]?.args?.() || [];
@@ -120,6 +125,7 @@ export default function Terminal({ close }) {
       complete();
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault();
+      playKeyClick();
       const h = history.current;
       if (!h.length) return;
       let i = histIdx.current;
@@ -129,8 +135,10 @@ export default function Terminal({ close }) {
       setInput(i < 0 ? '' : h[i]);
     } else if (e.key.toLowerCase() === 'l' && e.ctrlKey) {
       e.preventDefault();
+      playRetroClick(440);
       setLines([]);
     } else if (e.key.toLowerCase() === 'c' && e.ctrlKey && !window.getSelection()?.toString()) {
+      playError();
       print(
         <span>
           <Prompt cwd={cwd} /> {input}^C
@@ -138,6 +146,10 @@ export default function Terminal({ close }) {
         'in',
       );
       setInput('');
+    } else if (!e.ctrlKey && !e.altKey && !e.metaKey && e.key.length === 1) {
+      playKeyClick();
+    } else if (e.key === 'Backspace') {
+      playKeyClick();
     }
   };
 
@@ -178,6 +190,7 @@ export default function Terminal({ close }) {
             className="term__chip"
             onClick={(e) => {
               e.stopPropagation();
+              playRetroClick(600);
               if (!busy) run(q);
             }}
           >

@@ -3,6 +3,7 @@ import { quizQuestions, quizOpener } from '../../data/profile';
 import { unlock } from '../../lib/secrets';
 import { emit, robotDo } from '../../lib/store';
 import { primeAudio } from '../saga/sfx';
+import { playRetroClick, playPowerUp, playCoin, playWrong, playSuccess } from '../../lib/retroAudio';
 import { scrollToTarget } from '../../lib/smoothScroll';
 import './KnowVimal.css';
 
@@ -60,6 +61,7 @@ export default function KnowVimal({ active = true }) {
   const correctCount = results.filter(Boolean).length;
 
   const start = useCallback(() => {
+    playPowerUp();
     setRound(newRound());
     setIdx(0);
     setPicked(null);
@@ -78,6 +80,11 @@ export default function KnowVimal({ active = true }) {
       primeAudio(); // a click/keypress lets the saga play sound later
       const left = Math.max(0, SECONDS - (performance.now() - startedAt.current) / 1000);
       const ok = option === q.answer;
+      if (ok) {
+        playCoin();
+      } else {
+        playWrong();
+      }
       if (ok && q.special === 'timestone') {
         setPicked(option);
         setResults((r) => [...r, true]);
@@ -99,6 +106,7 @@ export default function KnowVimal({ active = true }) {
 
   const next = useCallback(() => {
     if (phase !== 'reveal') return;
+    playRetroClick(680);
     if (idx + 1 >= ROUNDS) {
       setPhase('done');
       return;
@@ -124,6 +132,9 @@ export default function KnowVimal({ active = true }) {
   // Final tally: best score + rewards.
   useEffect(() => {
     if (phase !== 'done') return;
+    if (correctCount >= 6) {
+      playSuccess();
+    }
     if (score > best) {
       setBest(score);
       try {
