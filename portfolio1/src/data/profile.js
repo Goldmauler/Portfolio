@@ -47,6 +47,8 @@ export const profile = {
 export const socials = [
   { label: 'GitHub', handle: '@Goldmauler', href: 'https://github.com/Goldmauler' },
   { label: 'LinkedIn', handle: 'vimal-harihar-s-k', href: 'https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/' },
+  { label: 'Scholar', handle: 'S. K. Vimal Harihar', href: 'https://scholar.google.com/citations?user=fFkE2O0AAAAJ' },
+  { label: 'ORCID', handle: '0009-0007-5084-4585', href: 'https://orcid.org/0009-0007-5084-4585' },
   { label: 'Email', handle: profile.email, href: `mailto:${profile.email}` },
 ];
 
@@ -340,10 +342,10 @@ export const certifications = [
 export const publications = [
   {
     title: 'AI’s Influence on Gender Representation and Societal Norms in Emerging Technologies',
-    venue: 'IEEE',
+    venue: 'IEEE · 2025 Gender and Technology Conference (GTC)',
     status: 'IEEE Published',
     type: 'Research Paper',
-    date: '',
+    date: '2025',
     note: 'How AI systems shape gender representation and social norms as emerging technologies scale.',
   },
   {

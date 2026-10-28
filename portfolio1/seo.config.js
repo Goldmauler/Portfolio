@@ -21,6 +21,8 @@ export const SEO_NAME = 'Vimal Harihar S K';
 export const SAME_AS = [
   'https://github.com/Goldmauler',
   'https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/',
+  'https://scholar.google.com/citations?user=fFkE2O0AAAAJ',
+  'https://orcid.org/0009-0007-5084-4585',
 ];
 
 const abs = (p) => new URL(p.replace(/^\//, ''), SITE_URL).href;
@@ -32,7 +34,7 @@ function jsonLd() {
     '@type': 'Person',
     '@id': `${SITE_URL}#person`,
     name: SEO_NAME,
-    alternateName: ['Vimal Harihar', 'Vimalharihar S K', 'Vimal Harihar SK', 'Goldmauler'],
+    alternateName: ['Vimal Harihar', 'S. K. Vimal Harihar', 'Vimalharihar S K', 'Vimal Harihar SK', 'Goldmauler'],
     givenName: 'Vimal Harihar',
     familyName: 'S K',
     url: SITE_URL,
@@ -68,6 +70,12 @@ function jsonLd() {
       name: c.name,
       recognizedBy: { '@type': 'Organization', name: c.org.split(' · ')[0] },
     })),
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'ORCID',
+      value: '0009-0007-5084-4585',
+      url: 'https://orcid.org/0009-0007-5084-4585',
+    },
     sameAs: SAME_AS,
   };
 
@@ -80,6 +88,7 @@ function jsonLd() {
       ...(p.date && /\d{4}/.test(p.date) ? { datePublished: p.date.match(/\d{4}/)[0] } : {}),
       ...(p.venue ? { publisher: { '@type': 'Organization', name: p.venue } } : {}),
       author: { '@id': `${SITE_URL}#person` },
+      url: SAME_AS[2],
     })),
     ...projects.map((p) => ({
       '@type': 'SoftwareSourceCode',

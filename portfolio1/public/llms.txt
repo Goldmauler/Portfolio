@@ -5,10 +5,12 @@
 - Software & AI Intern at Innoboon (Apr–Jun 2026): RAG + Deep Agents for JIRA ↔ GCP incident correlation.
 - Web Development Lead, Tensor AI Club, Amrita (2024–2026): led 20 developers; platform with 1,200+ users.
 - Winner, Infineon PSoC 6 Hackathon (2025). Finalist: Caterpillar Tech Challenge 2026, AWS AI for Bharat 2026, Smart India Hackathon 2025. 35+ hackathons.
-- 4 research publications, including an IEEE paper on AI's influence on gender representation and societal norms.
+- 4 research publications, including "AI's Influence on Gender Representation and Societal Norms in Emerging Technologies" (IEEE, 2025 Gender and Technology Conference) and "SecureAI-Cyber: An AI-Powered Cybersecurity Solution for Scalable Threat Management".
 
 ## Links
 - [Portfolio](https://www.vimalharihar.dev/)
 - [Résumé (PDF)](https://www.vimalharihar.dev/resume.pdf)
 - [GitHub](https://github.com/Goldmauler)
 - [LinkedIn](https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/)
+- [Google Scholar](https://scholar.google.com/citations?user=fFkE2O0AAAAJ) (S. K. Vimal Harihar)
+- [ORCID 0009-0007-5084-4585](https://orcid.org/0009-0007-5084-4585)
