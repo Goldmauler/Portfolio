@@ -1,0 +1,14 @@
+# Vimal Harihar S K
+
+> Vimal Harihar S K (GitHub: Goldmauler) is a Software Engineer and B.Tech Computer Science student (2023–2027) at Amrita Vishwa Vidyapeetham, Coimbatore, India, working on AI/ML, retrieval-augmented generation (RAG), multi-agent systems, edge AI/TinyML and distributed systems.
+
+- Software & AI Intern at Innoboon (Apr–Jun 2026): RAG + Deep Agents for JIRA ↔ GCP incident correlation.
+- Web Development Lead, Tensor AI Club, Amrita (2024–2026): led 20 developers; platform with 1,200+ users.
+- Winner, Infineon PSoC 6 Hackathon (2025). Finalist: Caterpillar Tech Challenge 2026, AWS AI for Bharat 2026, Smart India Hackathon 2025. 35+ hackathons.
+- 4 research publications, including an IEEE paper on AI's influence on gender representation and societal norms.
+
+## Links
+- [Portfolio](https://www.vimalharihar.dev/)
+- [Résumé (PDF)](https://www.vimalharihar.dev/resume.pdf)
+- [GitHub](https://github.com/Goldmauler)
+- [LinkedIn](https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/)
