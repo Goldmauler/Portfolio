@@ -4,6 +4,12 @@
   "outputDirectory": "build",
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "portfolio68-one.vercel.app" }],
+      "destination": "https://www.vimalharihar.dev/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "portfolio68-one.vercel.app" }],
       "destination": "https://www.vimalharihar.dev/:path*",
