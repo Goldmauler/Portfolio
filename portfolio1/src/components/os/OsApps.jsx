@@ -51,7 +51,7 @@ export const HELP = {
   terminal: [
     'Click inside the window and type a command, then press Enter.',
     'help lists everything. Tab autocompletes, ↑/↓ recall history.',
-    'Fun ones: neofetch · hack mainframe · sudo hire-vimal · matrix · theme paper · robot dance',
+    'Fun ones: neofetch · hack mainframe · sudo hire-vimal · matrix · theme space · robot dance',
     'open quiz / open firewall launch the games.',
   ],
   quiz: [

@@ -1,227 +1,363 @@
+/* ---------------------------------------------------------------------------
+   Opening scene. The section is a scroll runway; the stage sticks for its
+   length while the glyph cloud blasts past the camera (--p: 0 → 1).
+   --------------------------------------------------------------------------- */
+
 .hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
-  display: flex;
-  align-items: flex-end;
-  padding: calc(var(--menubar-h) + 48px) 0 clamp(64px, 10vh, 110px);
+  z-index: 3;
+  height: 165vh;
+  height: 165svh;
+}
+
+.hero__stage {
+  --p: 0;
+  --edge: clamp(16px, 2.2vw, 34px);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
   overflow: hidden;
+  background: var(--bg);
+  /* Let the next section slide over a stage that has already burst. */
+  clip-path: inset(0);
 }
 
-.hero__content {
-  position: relative;
+.hero__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 34% 46% at 50% 42%, rgba(var(--accent-rgb), 0.11), transparent 70%),
+    radial-gradient(ellipse 80% 70% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  opacity: calc(1 - var(--p) * 0.8);
+}
+:root[data-mode='light'] .hero__glow {
+  background: radial-gradient(ellipse 34% 46% at 50% 42%, rgba(255, 255, 255, 0.25), transparent 70%);
+}
+
+.hero__field {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.hero__field.is-ready {
+  opacity: 1;
+}
+.hero__field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero__field--flat {
+  display: grid;
+  place-items: start center;
+  padding-top: calc(var(--menubar-h) + 40px);
+  opacity: 1;
+}
+.hero__field--flat .holo {
+  width: min(520px, 80vw);
+}
+
+/* Circuit traces — drawn in after boot, then a pulse runs along them. */
+.hero__trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  opacity: calc(0.9 - var(--p) * 1.6);
+}
+.hero__trace .trace,
+.hero__trace .trace-pulse {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.hero__trace .trace {
+  stroke: rgba(var(--fg-rgb), 0.42);
+  stroke-width: 1.4;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+.hero__trace .trace-pulse {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-dasharray: 46 954;
+  stroke-dashoffset: 1000;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px var(--accent));
+}
+.hero__trace .node {
+  fill: var(--accent);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.hero__trace .node--hollow {
+  fill: var(--bg);
+  stroke: rgba(var(--fg-rgb), 0.55);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+.hero.is-drawing .trace {
+  animation: trace-draw 2.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.hero.is-drawing .hero__trace-b .trace {
+  animation-delay: 0.5s;
+}
+.hero.is-drawing .node {
+  animation: node-in 0.4s steps(3) forwards 2s;
+}
+.hero.is-drawing .hero__trace-b .node {
+  animation-delay: 2.5s;
+}
+.hero.is-in .trace-pulse {
+  opacity: 1;
+  animation: trace-pulse 4.2s linear infinite;
+}
+.hero.is-in .trace-pulse--slow {
+  animation-duration: 5.6s;
+  animation-delay: 1.3s;
+}
+
+/* Top info row */
+.hero__meta {
+  position: absolute;
+  top: calc(var(--menubar-h) + 16px);
+  left: var(--edge);
+  right: var(--edge);
   z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--fg);
+  opacity: calc(1 - var(--p) * 2.2);
 }
-
-.hero__kicker {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+.hero__meta > div {
+  display: grid;
 }
-.hero__kicker .label {
+.hero__meta > div:nth-child(2) {
+  justify-self: center;
+}
+.hero__meta > div:nth-child(3) {
+  text-align: right;
+}
+.hero__k {
+  color: var(--fg-faint);
+}
+.hero__time {
+  color: var(--fg-dim);
+}
+.hero__status {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-}
-
-.hero__name {
-  font-size: clamp(66px, 11.2vw, 196px);
-  line-height: 0.82;
-  letter-spacing: -0.058em;
-  text-transform: uppercase;
-}
-.hero__line {
-  display: block;
-  overflow: hidden;
-  padding: 0.02em 0.06em 0.05em 0;
-  margin-left: -0.04em;
-}
-.hero__line > span {
-  display: inline-block;
-  will-change: transform;
-}
-.hero__line--outline > span {
-  color: transparent;
-  -webkit-text-stroke: max(1.5px, 0.012em) var(--fg);
-}
-
-/* Hidden until the boot screen clears (GSAP reveals). */
-.js-motion .hero:not(.is-in) .hero__line > span {
-  transform: translateY(110%);
-}
-.js-motion .hero:not(.is-in) [data-hero-in],
-.js-motion .hero:not(.is-in) .hero-widget {
-  visibility: hidden;
-}
-
-.hero__bottom {
-  max-width: 600px;
-  margin-top: 30px;
-}
-
-.hero__role {
-  margin-bottom: 14px;
-  font-size: 14px;
+  gap: 7px;
+  justify-content: flex-end;
   color: var(--accent);
 }
-.hero__typer {
-  white-space: nowrap;
-}
 
-.hero__tagline {
-  max-width: 34ch;
+/* Bottom: blurb left, pill right, name full width beneath */
+.hero__foot {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  bottom: calc(var(--name-h, 22vw) + 1.2vw);
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  opacity: calc(1 - var(--p) * 2.4);
+}
+.hero__blurb {
+  max-width: 44ch;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.08vw, 17px);
+  line-height: 1.45;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+.hero__blurb a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.hero__blurb a:hover {
   color: var(--fg);
 }
 
-.hero__ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 26px;
-}
-
-.hero__facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 26px;
-  margin-top: 30px;
-}
-.hero__facts > div {
-  padding-left: 12px;
-  border-left: 1px solid var(--rule-strong);
-}
-.hero__facts dd {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.hero__cue {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  z-index: 2;
+.hero__explore {
   display: inline-flex;
-  gap: 8px;
-  transform: translateX(-50%);
-  color: var(--fg-dim);
-  font-size: 18px;
-}
-.hero__cue span {
-  animation: cue 1.4s steps(3) infinite;
-}
-.hero__cue:hover {
-  color: var(--accent);
-}
-
-/* Floating widgets */
-.hero__floats {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-.hero__float {
-  position: absolute;
-  will-change: transform;
-}
-.hero__float > div {
-  will-change: transform;
-}
-.hero__float--clock {
-  top: calc(var(--menubar-h) + 9vh);
-  left: 50%;
-}
-.hero__float--mon {
-  right: 3vw;
-  bottom: 13vh;
-}
-
-.hero-widget {
-  width: 200px;
-  pointer-events: auto;
-}
-.hero-widget .win__body {
-  font-size: 18px;
-  line-height: 1.15;
-}
-.hero-widget__time {
-  margin-top: 4px;
-  color: var(--accent);
-  font-size: 26px;
-}
-.hero-widget--mon {
-  width: 230px;
-}
-.hero-widget--mon .win__body {
-  display: grid;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-}
-
-.meter {
-  display: grid;
-  grid-template-columns: 74px 1fr;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 7px 7px 7px 18px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: rgba(var(--bg-rgb), 0.55);
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--fg);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
-.meter__label {
-  color: var(--fg-dim);
-  letter-spacing: 0.06em;
+.hero__explore-ico {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-.meter__track {
-  position: relative;
-  height: 9px;
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px var(--rule);
+.hero__explore:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
-.meter__fill {
-  position: absolute;
-  inset: 0;
+.hero__explore:hover .hero__explore-ico {
   background: var(--accent);
-  transform: scaleX(0.4);
-  transform-origin: left;
-  transition: transform 0.85s steps(8);
+  border-color: var(--accent);
+  color: var(--on-accent, #021009);
+  animation: cue 0.9s ease-in-out infinite;
 }
 
+.hero__namebox {
+  position: absolute;
+  left: var(--edge);
+  right: var(--edge);
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+  transform: translate3d(0, calc(var(--p) * 18vh), 0);
+  opacity: calc(1 - var(--p) * 1.5);
+}
+.hero__name {
+  display: block;
+  margin: 0;
+  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18vw;
+  line-height: 0.86;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  color: var(--fg);
+  text-shadow: 0 0 40px rgba(var(--bg-rgb), 0.5);
+}
+.hero__name .glitch {
+  display: inline-block;
+  padding-bottom: 0.1em;
+}
+.hero__name .glitch::before,
+.hero__name .glitch::after {
+  white-space: nowrap;
+}
+.hero__mask {
+  display: inline-block;
+  overflow: hidden;
+  /* Room for italic overhang and descenders inside the mask. */
+  padding: 0.04em 0.09em 0.12em;
+  margin: -0.04em -0.09em -0.12em;
+  vertical-align: top;
+}
+.hero__mask--space {
+  width: 0.32em;
+}
+.hero__char {
+  display: inline-block;
+  transform-origin: 0 100%;
+  will-change: transform;
+}
+
+
+/* Hidden until the boot screen clears (GSAP reveals). */
+.js-motion .hero:not(.is-in) .hero__char {
+  transform: translateY(115%);
+}
+.js-motion .hero:not(.is-in) [data-hero-in] {
+  visibility: hidden;
+}
+
+@keyframes trace-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes trace-pulse {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 @keyframes cue {
   50% {
-    transform: translateY(4px);
+    transform: translateY(3px);
   }
 }
 
-@media (max-width: 1100px) {
-  .hero__floats {
+/* Tablets and phones: portrait up top, text stacked under it. */
+@media (max-aspect-ratio: 1/1), (max-width: 760px) {
+  .hero {
+    height: 150vh;
+    height: 150svh;
+  }
+  .hero__meta {
+    grid-template-columns: 1fr 1fr;
+    font-size: 11px;
+  }
+  .hero__meta > div:nth-child(2) {
+    justify-self: end;
+    text-align: right;
+  }
+  .hero__meta > div:nth-child(3) {
     display: none;
   }
+  .hero__foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .hero__explore {
+    align-self: flex-start;
+  }
+  .hero__blurb {
+    max-width: none;
+  }
 }
 
-/* Portrait screens: the 3D robot sits in the top half, content below it. */
-@media (max-aspect-ratio: 1/1) {
-  .hero {
-    padding-top: 58vh;
-    padding-top: 58svh;
+@media (max-width: 420px) {
+  .hero__blurb {
+    font-size: 13.5px;
   }
-  .hero__cue {
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__trace .trace {
+    stroke-dashoffset: 0;
+  }
+  .hero__trace .node {
+    opacity: 1;
+  }
+  .hero__trace .trace-pulse {
     display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero {
-    padding-bottom: 76px;
-  }
-  .hero__name {
-    font-size: clamp(54px, 18.5vw, 120px);
-  }
-  .hero__facts {
-    gap: 10px 18px;
-  }
-  .hero__ctas .btn {
-    flex: 1 1 auto;
   }
 }

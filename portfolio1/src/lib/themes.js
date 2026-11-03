@@ -52,18 +52,6 @@ export const THEMES = {
     ink: '#e06f00',
     ink2: '#ffe6c8',
   },
-  paper: {
-    label: 'paper',
-    light: true,
-    bg: '#f2879f',
-    fg: '#2a2024',
-    accent: '#231b1e',
-    accent2: '#ffffff',
-    panel: '#e7e5e5',
-    onAccent: '#ffffff',
-    ink: '#2a1d22',
-    ink2: '#ffffff',
-  },
 };
 
 // Saved preferences from before the rename.

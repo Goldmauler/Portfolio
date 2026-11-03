@@ -356,7 +356,8 @@ function ReturnSequence({ onDropStone }) {
   useEffect(() => {
     if (!booted) return undefined;
     lockScroll(true);
-    window.scrollTo(0, 0);
+    // VH-01 lives just below the opening scene.
+    window.scrollTo(0, document.getElementById('top')?.offsetHeight || 0);
     score.preloadCredits();
     (async () => {
       try {

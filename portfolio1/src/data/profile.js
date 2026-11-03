@@ -297,10 +297,10 @@ export const quizQuestions = [
     where: 'projects',
   },
   {
-    q: 'What is the name of the robot at the top of this site?',
+    q: 'What is the name of the robot that greets you below the opening?',
     options: ['VH-01', 'R2-D2', 'JARVIS', 'WALL-E'],
     fact: 'VH-01. Click it a few times — it has opinions.',
-    where: 'top',
+    where: 'about',
   },
   {
     q: "What is Vimal's GitHub handle?",
@@ -395,7 +395,6 @@ export const projects = [
     link: 'https://github.com/Goldmauler/Caterpillar_Simulation',
     deck: { pdf: '/decks/phanovex.pdf', dir: '/decks/phanovex', slides: 24, title: 'Caterpillar Tech Challenge 2026 · final deck' },
     visual: 'truck',
-    image: '/images/phanovex.jpg',
   },
   {
     id: 'lazarus',
@@ -415,7 +414,6 @@ export const projects = [
     link: 'https://github.com/ArunN2005/lazarus-hackathon',
     deck: { pdf: '/decks/lazarus.pdf', dir: '/decks/lazarus', slides: 10, title: 'AWS AI for Bharat · idea submission deck' },
     visual: 'agents',
-    image: '/images/lazarus.jpg',
   },
   {
     id: 'avav',
@@ -435,7 +433,6 @@ export const projects = [
     tech: ['LangGraph', 'Gemini Vision', 'Meshy.ai', 'FastAPI', 'React', 'WebSockets'],
     link: 'https://github.com/Goldmauler/Agentic-AI-for-Autonomous-Enterprise-Workflows',
     visual: 'loop3d',
-    image: '/images/avav.jpg',
   },
   {
     id: 'lekhaflow',

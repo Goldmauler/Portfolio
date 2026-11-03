@@ -1,13 +1,20 @@
+/* Empty stage: VH-01 stands here in the fixed 3D scene behind the page. */
 .whoami {
-  display: flex;
-  justify-content: center;
-  margin-bottom: clamp(70px, 10vw, 130px);
+  position: relative;
+  height: min(78vh, 760px);
+  height: min(78svh, 760px);
+  margin-bottom: clamp(40px, 6vw, 80px);
+  pointer-events: none;
 }
-/* As large as the viewport allows: the ASCII portrait itself is square,
-   plus ~64px for the projector base and caption. */
-.whoami .holo {
-  width: min(100%, 940px, calc(100vh - 96px));
-  width: min(100%, 940px, calc(100svh - 96px));
+.whoami__cap {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .about__headline {

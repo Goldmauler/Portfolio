@@ -4,7 +4,6 @@ import { gsap, SCRAMBLE_CHARS } from '../lib/motion';
 import { unlock } from '../lib/secrets';
 import { prefersReducedMotion } from '../lib/device';
 import SectionMeta from '../components/SectionMeta';
-import HoloPortrait from '../components/HoloPortrait';
 import './About.css';
 
 const PILLARS = [
@@ -71,8 +70,11 @@ export default function About() {
       <div className="container">
         <SectionMeta index="01" path="~/whoami" />
 
-        <div className="whoami" data-reveal="pop">
-          <HoloPortrait src={profile.photo} label="ASCII hologram portrait of Vimal Harihar" />
+        {/* Empty stage: VH-01 (in the fixed 3D scene behind) stands here. */}
+        <div className="whoami" aria-hidden="true">
+          <span className="whoami__cap label">
+            <span className="live-dot" /> VH-01 · click the bot
+          </span>
         </div>
 
         <div className="brackets about__headline">
@@ -82,6 +84,7 @@ export default function About() {
             Ship. <em>Repeat.</em>
           </h2>
         </div>
+
 
         <div className="about__grid">
           {PILLARS.map((p) => (

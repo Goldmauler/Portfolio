@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { on, robotAnchor, robotHandAnchor, robotSay, getState, emit } from '../../lib/store';
 import { unlock } from '../../lib/secrets';
+import { WORLD_PER_PX } from './World';
 
 const { damp, clamp } = THREE.MathUtils;
 
@@ -39,17 +40,22 @@ function roundedRectShape(w, h, r) {
   return s;
 }
 
-/** Robot placement for the current viewport: right of the headline on wide screens, above it on tall ones. */
+/**
+ * Robot placement for the current viewport. The opening scene (#top) is an
+ * opaque scroll runway, so VH-01 waits just below it: it sits where it used
+ * to sit in the old hero once the next section reaches the top of the screen.
+ */
 export function getRobotLayout(viewport, size) {
+  const heroPx = (typeof document !== 'undefined' && document.getElementById('top')?.offsetHeight) || 0;
+  const drop = heroPx * WORLD_PER_PX;
   if (size.width / size.height >= 1) {
     return {
-      x: clamp(viewport.width * 0.2, 1.4, 3.6),
-      y: 0.25,
+      x: 0,
+      y: 0.25 - drop,
       s: clamp(viewport.height / 7.4, 0.55, 1.02),
     };
   }
-  // Portrait: the robot owns the top half of the hero (see Hero.css).
-  return { x: 0, y: viewport.height * 0.25, s: clamp(viewport.width / 5.4, 0.4, 0.58) };
+  return { x: 0, y: viewport.height * 0.25 - drop, s: clamp(viewport.width / 5.4, 0.4, 0.58) };
 }
 
 const easeOutBack = (x) => {
@@ -257,10 +263,13 @@ export default function Robot({ glitchRef, reducedMotion }) {
     if (!root.current) return;
 
     // Skip the expensive bits once the robot is far out of view.
-    const far = state.camera.position.y < -9;
+    const camY = state.camera.position.y;
+    const far = Math.abs(camY - layout.y) > 9.25;
 
     // Materialize after the boot screen.
-    if (s.appear < 1 && getState().booted) {
+    // It lives below the opening scene, so wait until it is on screen.
+    const inView = Math.abs(camY - layout.y) < viewport.height * 0.55;
+    if (s.appear < 1 && getState().booted && (s.appear > 0 || inView)) {
       s.appear = Math.min(1, s.appear + dt / 1.3);
       if (s.appear >= 1 && !s.greeted) {
         s.greeted = true;
