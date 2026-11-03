@@ -5,8 +5,9 @@ import * as THREE from 'three';
  * The photo is sampled into a grid of glyph cells (positive image: brighter
  * pixel → denser, brighter glyph) and cut out with a person mask
  * (public/vimal-mask.png, made once with rembg). Each cell becomes one WebGL
- * point that sits flat, exactly where the photo puts it. The only motion is
- * the intro (glyphs fly in and lock into place) and the scroll blast.
+ * point that sits flat where the photo puts it, breathing a fraction of a cell.
+ * Motion: intro fly-in, a light sweep, embers rising, a flowing starfield,
+ * cells parting around the cursor (they spring back), and the scroll blast.
  */
 
 // Sparse → dense.
@@ -38,6 +39,8 @@ const vertex = /* glsl */ `
   uniform float uSize;
   uniform vec3 uMouse;
   uniform float uMouseOn;
+  uniform vec2 uMouseVel;
+  uniform float uCell;
   uniform float uScrambleCount;
 
   varying float vAlpha;
@@ -48,35 +51,72 @@ const vertex = /* glsl */ `
   float hash(float n) { return fract(sin(n) * 43758.5453123); }
 
   void main() {
-    vec3 target = position;
-    float delay = aRand * 0.45 + (1.0 - aStar) * (0.5 - target.y * 0.25) * 0.35;
+    // aStar: 0 = portrait cell, 1 = background star, 2 = ember rising off the portrait.
+    float isP = 1.0 - step(0.5, aStar);
+    float isS = step(0.5, aStar) * (1.0 - step(1.5, aStar));
+    float isE = step(1.5, aStar);
+    vec3 home = position;
+    vec3 target = home;
+    float sd = clamp(uScroll * 1.3 - aRand * 0.3, 0.0, 1.0);
+    float life = 1.0;
+
+    // Stars keep flowing toward the viewer and wrap round.
+    if (isS > 0.5) {
+      target.z = -14.0 + mod(home.z + 14.0 + uTime * (0.25 + 0.45 * aRand), 12.5);
+      target.xy += vec2(sin(uTime * 0.13 + aRand * 20.0), cos(uTime * 0.11 + aRand * 17.0)) * 0.25;
+      life = smoothstep(-14.0, -12.0, target.z) * (1.0 - smoothstep(-2.6, -1.5, target.z));
+    }
+    // Embers lift off the portrait like sparks, then respawn.
+    float ph = 0.0;
+    if (isE > 0.5) {
+      ph = fract(uTime * (0.045 + 0.07 * aRand) + aRand * 13.0);
+      target += vec3(sin(uTime * 0.7 + aRand * 30.0) * 0.05 + aDir.x * ph * 0.35, ph * 1.1 + ph * ph * 0.6, 0.0);
+      life = sin(ph * 3.14159) * smoothstep(0.0, 0.08, ph);
+    }
+    // Portrait cells breathe a fraction of a cell around their spot, so the
+    // picture stays exact but never sits dead still.
+    if (isP > 0.5) {
+      target.xy += vec2(sin(uTime * 1.1 + aRand * 40.0), cos(uTime * 0.9 + aRand * 29.0)) * uCell * 0.16;
+    }
+
+    // Cursor: cells part around it, swirl in its wake and spring back.
+    vec2 dm = home.xy - uMouse.xy;
+    float dl = length(dm);
+    float f = (1.0 - isS) * uMouseOn * (1.0 - smoothstep(0.0, 0.34, dl)) * (1.0 - sd);
+    vec2 away = dl > 1e-4 ? dm / dl : vec2(0.0);
+    vec2 swirl = vec2(-away.y, away.x) * (aRand - 0.5);
+    target.xy += (away * 0.09 + swirl * 0.08) * f * f + uMouseVel * f * 0.05;
+
+    float delay = aRand * 0.45 + (1.0 - min(aStar, 1.0)) * (0.5 - home.y * 0.25) * 0.35;
     float d = clamp((uIntro * 1.55 - delay) / 0.9, 0.0, 1.0);
     float e = 1.0 - pow(1.0 - d, 4.0);
     vec3 p = mix(aStart, target, e);
-
-    float sd = clamp(uScroll * 1.3 - aRand * 0.3, 0.0, 1.0);
     p += aDir * sd * sd * 7.0;
 
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
-    gl_PointSize = max(1.0, uSize * (1.0 + sd * 1.8) * (aStar > 0.5 ? 0.75 : 1.0) / -mv.z);
+    gl_PointSize = max(1.0, uSize * (1.0 + sd * 1.8) * (isP > 0.5 ? 1.0 : 0.75) / -mv.z);
 
-    // Glyphs scramble only while travelling; once locked they show the photo.
+    // A band of light sweeps across the portrait every few seconds.
+    float band = fract(uTime * 0.11) * 4.4 - 2.0;
+    float wave = isP * exp(-pow((home.x + home.y * 0.45 - band) * 6.0, 2.0));
+
+    // Glyphs scramble while travelling, in the sweep and under the cursor;
+    // everywhere else they show the photo.
     float tick = floor(uTime * 14.0 + aRand * 97.0);
-    float scr = max((1.0 - e) * 0.95, sd * 0.6);
+    float scr = max(max((1.0 - e) * 0.95, sd * 0.6), max(wave * 0.3, f * 0.55));
+    if (isE > 0.5) scr = 0.25;
     float g = aGlyph;
     if (hash(tick * 1.7 + aRand * 13.0) < scr) g = floor(hash(tick + aRand * 77.0) * uScrambleCount);
     vGlyph = g;
 
-    // Cursor: a soft light over the portrait. Nothing moves.
-    float hot = uMouseOn * (1.0 - aStar) * (1.0 - smoothstep(0.0, 0.3, length(target.xy - uMouse.xy))) * (1.0 - sd);
-
-    float fadeIn = mix(0.1, 1.0, e);
+    float hot = isP * f;
+    float fadeIn = mix(0.1, 1.0, e) * (isE > 0.5 ? e : 1.0);
     float fadeOut = 1.0 - smoothstep(0.6, 1.0, sd);
     float nearFade = smoothstep(0.25, 1.4, -mv.z);
-    vAlpha = min(1.0, aBright + hot * 0.35) * fadeIn * fadeOut * nearFade;
-    vBright = aBright;
-    vHot = hot;
+    vAlpha = min(1.0, aBright + hot * 0.35 + wave * 0.22) * life * fadeIn * fadeOut * nearFade;
+    vBright = min(1.0, aBright + wave * 0.3);
+    vHot = max(hot, wave * 0.5);
   }
 `;
 
@@ -241,6 +281,22 @@ function buildGeometry(img, mask, cols, starCount) {
     }
   }
 
+  // Embers: extra sparks born on random portrait cells (the cells themselves stay put).
+  const cells = pts.length;
+  const emberCount = Math.round(cells * 0.05);
+  for (let i = 0; i < emberCount; i++) {
+    const src = pts[(Math.random() * cells) | 0];
+    const [x, y] = src.target;
+    pts.push({
+      target: [x, y, 0],
+      start: [x * 1.6, y * 1.6 - 1, rand(-6, -1)],
+      dir: [rand(-1, 1), rand(0.4, 1.4), rand(0.4, 1.2)],
+      glyph: GLYPH_INDEX.get(STARS[(Math.random() * STARS.length) | 0]),
+      bright: rand(0.25, 0.6),
+      star: 2,
+    });
+  }
+
   for (let i = 0; i < starCount; i++) {
     const p = [rand(-9, 9), rand(-5.5, 5.5), rand(-14, -1.5)];
     pts.push({
@@ -275,7 +331,7 @@ function buildGeometry(img, mask, cols, starCount) {
   const geo = new THREE.BufferGeometry();
   Object.entries(A).forEach(([k, v]) => geo.setAttribute(k, new THREE.BufferAttribute(v, v.length === n * 3 ? 3 : 1)));
   geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 30);
-  return { geo, rows, aspect: width / PORTRAIT_H };
+  return { geo, rows, cellH, aspect: width / PORTRAIT_H };
 }
 
 function loadImage(src) {
@@ -300,7 +356,7 @@ export async function createPortraitField(container, { src, mask, reduced, color
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.05, 60);
 
-  const { geo, rows, aspect } = buildGeometry(img, maskImg, small ? 104 : 150, small ? 600 : 1400);
+  const { geo, rows, cellH, aspect } = buildGeometry(img, maskImg, small ? 104 : 150, small ? 600 : 1400);
   const atlas = buildAtlas();
   const uniforms = {
     uTime: { value: 0 },
@@ -309,6 +365,8 @@ export async function createPortraitField(container, { src, mask, reduced, color
     uSize: { value: 1 },
     uMouse: { value: new THREE.Vector3(9, 9, 0) },
     uMouseOn: { value: 0 },
+    uMouseVel: { value: new THREE.Vector2() },
+    uCell: { value: cellH },
     uScrambleCount: { value: SCRAMBLE.length },
     uAtlas: { value: atlas },
     uGrid: { value: new THREE.Vector2(ATLAS_COLS, ATLAS_ROWS) },
@@ -363,6 +421,7 @@ export async function createPortraitField(container, { src, mask, reduced, color
   const hit = new THREE.Vector3();
   const pointer = { nx: 0, ny: 0, on: false };
   let mouseOn = 0;
+  const mouseVel = new THREE.Vector2();
   const onMove = (e) => {
     const r = container.getBoundingClientRect();
     pointer.nx = ((e.clientX - r.left) / r.width) * 2 - 1;
@@ -405,9 +464,17 @@ export async function createPortraitField(container, { src, mask, reduced, color
       ray.setFromCamera(ndc, camera);
       if (ray.ray.intersectPlane(plane, hit)) {
         hit.y -= layout.y;
-        uniforms.uMouse.value.lerp(hit, 0.3);
+        // Lagging cursor + its velocity give the cells a flowing wake.
+        const m = uniforms.uMouse.value;
+        const px = m.x;
+        const py = m.y;
+        m.lerp(hit, 1 - Math.exp(-dt * 9));
+        if (dt > 0) mouseVel.lerp(new THREE.Vector2((m.x - px) / dt, (m.y - py) / dt), 0.25);
       }
     }
+    mouseVel.multiplyScalar(Math.exp(-dt * 3));
+    if (mouseVel.length() > 3) mouseVel.setLength(3);
+    uniforms.uMouseVel.value.copy(mouseVel);
     uniforms.uMouseOn.value = mouseOn;
     renderer.render(scene, camera);
   };
