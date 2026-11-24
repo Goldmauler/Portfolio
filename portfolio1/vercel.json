@@ -15,12 +15,11 @@
       "destination": "https://www.vimalharihar.dev/:path*",
       "permanent": true
     },
-    { "source": "/about", "destination": "/#about", "permanent": true },
     { "source": "/skills", "destination": "/#skills", "permanent": true },
     { "source": "/experience", "destination": "/#experience", "permanent": true },
-    { "source": "/projects", "destination": "/#projects", "permanent": true },
     { "source": "/contact", "destination": "/#contact", "permanent": true }
   ],
+  "trailingSlash": true,
   "headers": [
     {
       "source": "/(.*)",

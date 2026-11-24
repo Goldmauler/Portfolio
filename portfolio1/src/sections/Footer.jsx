@@ -28,6 +28,18 @@ export default function Footer() {
                   <button onClick={() => scrollToTarget(`#${s.id}`)}>~/{s.label}</button>
                 </li>
               ))}
+              {/* Real, crawlable pages (built by seo.config.js) — one URL per topic. */}
+              {[
+                ['about', '/about/'],
+                ['achievements', '/achievements/'],
+                ['projects', '/projects/'],
+                ['research', '/research/'],
+                ['photos', '/photos/'],
+              ].map(([label, href]) => (
+                <li key={href}>
+                  <a href={href}>pages/{label}</a>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="col">

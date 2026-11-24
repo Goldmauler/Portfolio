@@ -2,6 +2,9 @@
 // the portfolio into index.html, so search engines and AI crawlers that don't run
 // JavaScript still see the name, links, projects and research. React replaces the
 // #root contents on mount, so visitors see the same content, just interactive.
+//
+// It also emits the static, individually indexable pages (/about/, /achievements/…,
+// /photos/, …) and sitemap.xml — see seo/pages.mjs for the content.
 import {
   profile,
   socials,
@@ -10,74 +13,15 @@ import {
   achievements,
   publications,
   projects,
-  certifications,
 } from './src/data/profile.js';
+import { SITE_URL, SEO_NAME, NAME_VARIANTS, SAME_AS, NAV, abs, esc } from './seo/site.mjs';
+import { buildPerson, PERSON_ID, PORTRAIT, PORTRAIT_4X3, PORTRAIT_16X9, imageObject } from './seo/schema.mjs';
+import { PAGES, renderPage, renderSitemap, pageUrls } from './seo/render.mjs';
 
-export const SITE_URL = 'https://www.vimalharihar.dev/';
-export const SEO_NAME = 'Vimal Harihar S K';
-
-// Every public profile that belongs to this person. Search engines use `sameAs`
-// to tie them into one entity — add new profiles here (Scholar, ORCID, etc.).
-export const SAME_AS = [
-  'https://github.com/Goldmauler',
-  'https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/',
-  'https://scholar.google.com/citations?user=fFkE2O0AAAAJ',
-  'https://orcid.org/0009-0007-5084-4585',
-];
-
-const abs = (p) => new URL(p.replace(/^\//, ''), SITE_URL).href;
-const esc = (s = '') =>
-  String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+export { SITE_URL, SEO_NAME, SAME_AS };
 
 function jsonLd() {
-  const person = {
-    '@type': 'Person',
-    '@id': `${SITE_URL}#person`,
-    name: SEO_NAME,
-    alternateName: ['Vimal Harihar', 'S. K. Vimal Harihar', 'Vimalharihar S K', 'Vimal Harihar SK', 'Goldmauler'],
-    givenName: 'Vimal Harihar',
-    familyName: 'S K',
-    url: SITE_URL,
-    image: {
-      '@type': 'ImageObject',
-      url: abs('/vimal-harihar-s-k.jpg'),
-      caption: `${SEO_NAME} — Software Engineer, AI & ML`,
-    },
-    jobTitle: 'Software Engineer · AI & ML',
-    description: profile.summary,
-    email: `mailto:${profile.email}`,
-    address: { '@type': 'PostalAddress', addressLocality: 'Coimbatore', addressRegion: 'Tamil Nadu', addressCountry: 'IN' },
-    alumniOf: {
-      '@type': 'CollegeOrUniversity',
-      name: 'Amrita Vishwa Vidyapeetham',
-      url: 'https://www.amrita.edu/',
-    },
-    affiliation: { '@type': 'CollegeOrUniversity', name: 'Amrita Vishwa Vidyapeetham, Coimbatore' },
-    knowsAbout: [
-      'Artificial Intelligence',
-      'Machine Learning',
-      'Retrieval-Augmented Generation',
-      'Multi-Agent Systems',
-      'Edge AI',
-      'TinyML',
-      'Distributed Systems',
-      'Full Stack Development',
-      'AWS',
-    ],
-    award: achievements.map((a) => `${a.title} — ${a.event}${a.year ? ` (${a.year})` : ''}`),
-    hasCredential: certifications.map((c) => ({
-      '@type': 'EducationalOccupationalCredential',
-      name: c.name,
-      recognizedBy: { '@type': 'Organization', name: c.org.split(' · ')[0] },
-    })),
-    identifier: {
-      '@type': 'PropertyValue',
-      propertyID: 'ORCID',
-      value: '0009-0007-5084-4585',
-      url: 'https://orcid.org/0009-0007-5084-4585',
-    },
-    sameAs: SAME_AS,
-  };
+  const person = buildPerson();
 
   const works = [
     ...publications.map((p) => ({
@@ -87,7 +31,7 @@ function jsonLd() {
       abstract: p.note,
       ...(p.date && /\d{4}/.test(p.date) ? { datePublished: p.date.match(/\d{4}/)[0] } : {}),
       ...(p.venue ? { publisher: { '@type': 'Organization', name: p.venue } } : {}),
-      author: { '@id': `${SITE_URL}#person` },
+      author: { '@id': PERSON_ID },
       url: SAME_AS[2],
     })),
     ...projects.map((p) => ({
@@ -98,7 +42,7 @@ function jsonLd() {
       ...(p.image ? { image: abs(p.image) } : {}),
       programmingLanguage: p.tech,
       ...(p.year ? { dateCreated: p.year } : {}),
-      creator: { '@id': `${SITE_URL}#person` },
+      creator: { '@id': PERSON_ID },
     })),
   ];
 
@@ -110,8 +54,8 @@ function jsonLd() {
         '@id': `${SITE_URL}#website`,
         url: SITE_URL,
         name: `${SEO_NAME} — Portfolio`,
-        alternateName: ['VH.OS', 'Vimal Harihar Portfolio'],
-        publisher: { '@id': `${SITE_URL}#person` },
+        alternateName: ['VH.OS', 'Vimal Harihar Portfolio', 'vimalharihar.dev'],
+        publisher: { '@id': PERSON_ID },
         inLanguage: 'en',
       },
       {
@@ -121,9 +65,12 @@ function jsonLd() {
         name: `${SEO_NAME} — Software Engineer · AI & ML`,
         isPartOf: { '@id': `${SITE_URL}#website` },
         mainEntity: person,
+        primaryImageOfPage: { '@id': `${abs(PORTRAIT.src)}#image` },
+        significantLink: pageUrls(),
         hasPart: works,
         dateModified: new Date().toISOString().slice(0, 10),
       },
+      ...[PORTRAIT, PORTRAIT_4X3, PORTRAIT_16X9].map((p) => imageObject(p, { primary: p === PORTRAIT })),
     ],
   };
 }
@@ -132,12 +79,14 @@ function staticHtml() {
   const li = (items) => items.map((x) => `<li>${x}</li>`).join('');
   return `
 <main class="seo-static">
-  <img src="/vimal-harihar-s-k.jpg" alt="${esc(SEO_NAME)} — Software Engineer, AI &amp; ML, Amrita Vishwa Vidyapeetham" width="160" height="160" />
+  <img src="${PORTRAIT.src}" alt="${esc(PORTRAIT.alt)}" width="160" height="160" />
   <h1>${esc(SEO_NAME)}</h1>
+  <p>Also written ${NAME_VARIANTS.slice(0, 6).map(esc).join(', ')}.</p>
   <p><strong>${esc(profile.roles.slice(0, 3).join(' · '))}</strong> — ${esc(profile.location)}</p>
   <p>${esc(profile.tagline)}</p>
   <p>${esc(profile.summary)}</p>
   <ul>${li(stats.map((s) => `${s.value}${s.suffix} ${esc(s.label)} (${esc(s.note)})`))}</ul>
+  <nav aria-label="Pages">${NAV.map(([label, href]) => `<a href="${href}">${label}</a>`).join(' · ')}</nav>
   <nav aria-label="Profiles">${socials
     .map((s) => `<a href="${esc(s.href)}" rel="me">${esc(s.label)}</a>`)
     .join(' · ')} · <a href="/resume.pdf">Résumé (PDF)</a></nav>
@@ -172,6 +121,27 @@ export function seoPlugin() {
           .replace('<!--seo:jsonld-->', `<script type="application/ld+json">${JSON.stringify(jsonLd())}</script>`)
           .replace('<div id="root"></div>', `<div id="root">${staticHtml()}</div>`);
       },
+    },
+    // Static pages + sitemap are written straight into the build output.
+    generateBundle() {
+      for (const p of PAGES) {
+        this.emitFile({ type: 'asset', fileName: `${p.path}/index.html`, source: renderPage(p) });
+      }
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: renderSitemap() });
+    },
+    // `npm run dev`: serve the same pages so they can be previewed without a build.
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const path = (req.url || '').split('?')[0].replace(/^\/|\/$/g, '');
+        if (req.url === '/sitemap.xml') {
+          res.setHeader('Content-Type', 'application/xml');
+          return res.end(renderSitemap());
+        }
+        const page = PAGES.find((p) => p.path === path);
+        if (!page) return next();
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.end(renderPage(page));
+      });
     },
   };
 }

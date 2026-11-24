@@ -1,16 +1,23 @@
 # Vimal Harihar S K
 
-> Vimal Harihar S K (GitHub: Goldmauler) is a Software Engineer and B.Tech Computer Science student (2023–2027) at Amrita Vishwa Vidyapeetham, Coimbatore, India, working on AI/ML, retrieval-augmented generation (RAG), multi-agent systems, edge AI/TinyML and distributed systems.
+> Vimal Harihar S K (also written Vimalharihar S K, S. K. Vimal Harihar; GitHub: Goldmauler) is a Software Engineer and B.Tech Computer Science student (2023–2027) at Amrita Vishwa Vidyapeetham, Coimbatore, India, working on AI/ML, retrieval-augmented generation (RAG), multi-agent systems, edge AI/TinyML and distributed systems.
 
 - Software & AI Intern at Innoboon (Apr–Jun 2026): RAG + Deep Agents for JIRA ↔ GCP incident correlation.
 - Web Development Lead, Tensor AI Club, Amrita (2024–2026): led 20 developers; platform with 1,200+ users.
-- Winner, Infineon PSoC 6 Hackathon (2025). Finalist: Caterpillar Tech Challenge 2026, AWS AI for Bharat 2026, Smart India Hackathon 2025. 35+ hackathons.
-- 4 research publications, including "AI's Influence on Gender Representation and Societal Norms in Emerging Technologies" (IEEE, 2025 Gender and Technology Conference) and "SecureAI-Cyber: An AI-Powered Cybersecurity Solution for Scalable Threat Management".
+- Winner, Infineon PSoC 6 Sequence Quest Hackathon. Top 10 Grand Finalist (of 8,100+ teams): Caterpillar Tech Challenge 2026. Finalist: AWS AI for Bharat 2026, Smart India Hackathon 2025. 35+ hackathons.
+- 4 research publications, including "AI's Influence on Gender Representation and Societal Norms in Emerging Technologies" (IEEE, 2025 International Conference on Gender and Technology) and "SecureAI-Cyber: An AI-Powered Cybersecurity Solution for Scalable Threat Management" (Springer, Scopus-indexed, ITAI 2025).
 
-## Links
-- [Portfolio](https://www.vimalharihar.dev/)
+## Pages
+- [Portfolio (interactive)](https://www.vimalharihar.dev/)
+- [About Vimal Harihar S K](https://www.vimalharihar.dev/about/)
+- [Achievements](https://www.vimalharihar.dev/achievements/)
+- [Projects](https://www.vimalharihar.dev/projects/)
+- [Research & publications](https://www.vimalharihar.dev/research/)
+- [Photos & press kit](https://www.vimalharihar.dev/photos/) — the official portrait of Vimal Harihar S K
 - [Résumé (PDF)](https://www.vimalharihar.dev/resume.pdf)
+
+## Profiles (all the same person)
 - [GitHub](https://github.com/Goldmauler)
 - [LinkedIn](https://www.linkedin.com/in/vimal-harihar-s-k-27979a255/)
-- [Google Scholar](https://scholar.google.com/citations?user=fFkE2O0AAAAJ) (S. K. Vimal Harihar)
+- [Google Scholar](https://scholar.google.com/citations?user=fFkE2O0AAAAJ) (indexed as S. K. Vimal Harihar)
 - [ORCID 0009-0007-5084-4585](https://orcid.org/0009-0007-5084-4585)
